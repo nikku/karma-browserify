@@ -1,0 +1,25 @@
+{
+  "globals": {
+    "jasmine": false,
+    "spyOn": false,
+    "it": false,
+    "console": false,
+    "describe": false,
+    "expect": false,
+    "beforeEach": false,
+    "afterEach": false
+  },
+
+  "node" : true,
+
+  "boss":      true,
+  "node":      true,
+  "strict":    true,
+  "maxlen":    120,
+  "newcap":    false,
+  "undef":     true,
+  "unused":    true,
+  "onecase":   true,
+  "lastsemic": true,
+  "indent":    2
+}

@@ -1,7 +1,39 @@
 # karma-bro
 
+A fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that can easily handle large browserify projects.
+
 
 ## Usage
+
+Install the plug-in via [npm](https://www.npmjs.org/):
+
+```
+npm install --save-dev karma-bro
+```
+
+Add `browserify` to your Karma configuration as a framework and configure it via the configs `preprocessors` entry to bundle all CommonJS via browserify before executing the tests. Optionally use the `browserify` config entry to configure how the bundle gets created.
+
+
+```javascript
+module.exports = function(karma) {
+  karma.set({
+
+    frameworks: [ 'browserify' ],
+
+    preprocessors: {
+      'test/**/*.js': [ 'browserify' ]
+    },
+
+    browserify: {
+      debug: true,
+      transform: [ 'brfs' ]
+    }
+ });
+}
+```
+
+
+#### Long Version
 
 
 ```javascript
@@ -13,13 +45,13 @@ module.exports = function(karma) {
 
     // add all your files here
     files: [
-      'test/spec/**/*Spec.js'
+      'test/**/*.js'
     ],
 
     // add preprocessor to the files that should be
     // processed via browserify
     preprocessors: {
-      'test/spec/**/*Spec.js': [ 'browserify' ]
+      'test/**/*.js': [ 'browserify' ]
     },
 
     // see what is going on
@@ -36,3 +68,8 @@ module.exports = function(karma) {
   });
 };
 ```
+
+
+## License
+
+MIT

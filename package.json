@@ -1,0 +1,30 @@
+{
+  "name": "karma-bro",
+  "description": "A fast browserify integration for Karma that can easily handle large browserify projects",
+  "keywords": [
+    "karma-plugin",
+    "browserify"
+  ],
+  "version": "0.1.0",
+  "authors": [
+    "Nico Rehwaldt <git_nikku@nixis.de>"
+  ],
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Nikku/karma-bro.git"
+  },
+  "bugs": "https://github.com/Nikku/karma-bro/issues",
+  "dependencies": {
+    "convert-source-map": "~0.3.3"
+  },
+  "devDependencies": {
+    "karma": ">=0.10",
+    "watchify": "~0.6"
+  },
+  "peerDependencies": {
+    "karma": ">=0.10",
+    "watchify": "~0.6"
+  }
+}
