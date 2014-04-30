@@ -17,7 +17,8 @@
   },
   "bugs": "https://github.com/Nikku/karma-bro/issues",
   "dependencies": {
-    "convert-source-map": "~0.3.3"
+    "convert-source-map": "~0.3.3",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "karma": ">=0.10",
