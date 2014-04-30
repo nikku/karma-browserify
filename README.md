@@ -1,6 +1,6 @@
 # karma-bro
 
-A fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that can easily handle large browserify projects.
+A fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large CommonJS / browserify projects with ease.
 
 
 ## Installation
