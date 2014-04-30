@@ -15,7 +15,7 @@
   "devDependencies": {
     "karma": "~0.12",
     "karma-jasmine": "~0.1.5",
-    "karma-phantomjs-launcher": "~0.1.4"
+    "karma-phantomjs-launcher": "~0.1.4",
     "karma-bro": "~0.1.0",
     "brfs": "~1.1.1"
   }
