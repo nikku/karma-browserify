@@ -155,15 +155,47 @@ describe('bro', function() {
       preprocess(plugin, bundleFile, [ testFile ], function(order) {
 
         // then
+        // resolve order: bundle, testFileStubs ...
         expect(order).toEqual([ bundleFile, testFile ]);
 
         // bundle got created
         expect(bundleFile.bundled).toMatch(/require=\(.*\)/);
 
         // test file stub got created
-        expect(testFile.bundled).toEqual('if (window.require) { require("Jnu4tI"); }');
+        expect(testFile.bundled).toEqual('if (window.require) { require("./test/fixtures/b.js"); }');
 
         done();
+      });
+
+    });
+
+
+    it ('should path through on updates', function(done) {
+
+      // given
+      var config = createConfig();
+      var plugin = createPlugin(config);
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/b.js');
+
+      // initial bundle creation
+      preprocess(plugin, bundleFile, [ testFile ], function() {
+
+        // when
+        preprocess(plugin, bundleFile, [ testFile ], function() {
+
+          // then
+
+          // bundle got passed through
+          expect(bundleFile.bundled).toMatch(/require=\(.*\)/);
+
+          // test file got regenerated
+          expect(testFile.bundled).toEqual('if (window.require) { require("./test/fixtures/b.js"); }');
+
+          done();
+        });
+
       });
 
     });
@@ -193,37 +225,6 @@ describe('bro', function() {
 
         done();
       });
-    });
-
-
-    it ('should path through on updates', function(done) {
-
-      // given
-      var config = createConfig();
-      var plugin = createPlugin(config);
-
-      var bundleFile = createFile(bundle.location);
-      var testFile = createFile('test/fixtures/b.js');
-
-      // initial bundle creation
-      preprocess(plugin, bundleFile, [ testFile ], function() {
-
-        // when
-        preprocess(plugin, bundleFile, [ testFile ], function() {
-
-          // then
-
-          // bundle got passed through
-          expect(bundleFile.bundled).toMatch(/require=\(.*\)/);
-
-          // test file got regenerated
-          expect(testFile.bundled).toEqual('if (window.require) { require("Jnu4tI"); }');
-
-          done();
-        });
-
-      });
-
     });
 
 
