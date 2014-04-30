@@ -1,5 +1,7 @@
 # karma-bro
 
+[![Build Status](https://travis-ci.org/Nikku/karma-bro.svg?branch=master)](https://travis-ci.org/Nikku/karma-bro)
+
 A fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large CommonJS / browserify projects with ease.
 
 
