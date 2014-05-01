@@ -5,7 +5,7 @@
     "karma-plugin",
     "browserify"
   ],
-  "version": "0.3.0",
+  "version": "0.2.1",
   "scripts": {
     "test": "grunt test",
     "travis": "grunt travis --verbose"
@@ -30,7 +30,8 @@
     "grunt-contrib-jshint": "~0.10.0",
     "load-grunt-tasks": "~0.4.0",
     "karma": ">=0.10",
-    "watchify": "~0.6"
+    "watchify": "~0.6",
+    "grunt-release": "^0.7.0"
   },
   "peerDependencies": {
     "karma": ">=0.10",
