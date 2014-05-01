@@ -1,14 +1,25 @@
 'use strict';
 
+var _ = require('lodash');
+
 
 function Logger() {
 
   var logged = this.logged = [];
 
   function log(mode, args) {
-    args = Array.prototype.slice.call(args);
+    var prefix = '[' + mode + '] ';
 
-    logged.push('[' + mode + '] ' + args.join(' '));
+    args = Array.prototype.slice.call(args);
+    logged.push(prefix + args.join(' '));
+
+    if (_.isString(args[0])) {
+      args[0] = prefix + args[0];
+    } else {
+      args.unshift(prefix);
+    }
+
+    console.log.apply(console, args);
   }
 
   this.info = function() {
