@@ -31,13 +31,51 @@ function createFile(path) {
 }
 
 function createConfig(config) {
-  return _.merge({
+  config = config || {};
+
+  return _.merge(config, {
     basePath: '',
     files: [ createFilePattern('*.js') ],
     preprocessors: {
       '*.js': [ 'browserify' ]
     }
-  }, config || {});
+  }, config);
+}
+
+/**
+ * Preprocess bundle and test files, collect async results
+ * and call the callback with all files in the order they have been processed.
+ */
+function preprocess(bundle, testFiles, done) {
+
+  /*jshint validthis:true */
+  var plugin = this;
+
+  var total = 1 + testFiles.length;
+
+  var processed = [];
+
+  function fileProcessed(file, result) {
+    file.bundled = result;
+
+    processed.push(file);
+
+    if (processed.length == total) {
+      done(processed);
+    }
+  }
+
+  function process(preprocessor, file) {
+    preprocessor(file.bundled || '', file, function(result) {
+      fileProcessed(file, result);
+    });
+  }
+
+  process(plugin.bundlePreprocessor, bundle);
+
+  _.forEach(testFiles, function(file) {
+    process(plugin.testFilePreprocessor, file);
+  });
 }
 
 
@@ -67,43 +105,19 @@ describe('bro', function() {
 
   function createPlugin(config) {
 
-    return {
-      framework: bro.framework(emitter, config, loggerFactory),
-      testFilePreprocessor: bro.testFilePreprocessor(config),
-      bundlePreprocessor: bro.bundlePreprocessor(config)
-    };
-  }
+    config = createConfig(config);
 
+    function TestPlugin(bro) {
 
-  function preprocess(plugin, bundle, testFiles, done) {
+      this.framework = bro.framework(emitter, config, loggerFactory);
+      this.testFilePreprocessor = bro.testFilePreprocessor(config);
+      this.bundlePreprocessor = bro.bundlePreprocessor(config);
 
-    var total = 1 + testFiles.length;
-
-    var processed = [];
-
-    function fileProcessed(file, result) {
-      file.bundled = result;
-
-      processed.push(file);
-
-      if (processed.length == total) {
-        done(processed);
-      }
+      this.preprocess = preprocess.bind(this);
     }
 
-    function process(preprocessor, file) {
-      preprocessor(file.bundled || '', file, function(result) {
-        fileProcessed(file, result);
-      });
-    }
-
-    process(plugin.bundlePreprocessor, bundle);
-
-    _.forEach(testFiles, function(file) {
-      process(plugin.testFilePreprocessor, file);
-    });
+    return new TestPlugin(bro);
   }
-
 
   describe('framework', function() {
 
@@ -125,9 +139,7 @@ describe('bro', function() {
     it('should cleanup bundle file on exit', function() {
 
       // given
-      var config = createConfig();
-
-      createPlugin(config);
+      createPlugin();
 
       // when
       emitter.emit('exit', function() { });
@@ -145,14 +157,13 @@ describe('bro', function() {
     it('should create bundle', function(done) {
 
       // given
-      var config = createConfig();
-      var plugin = createPlugin(config);
+      var plugin = createPlugin();
 
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/b.js');
 
       // when
-      preprocess(plugin, bundleFile, [ testFile ], function(order) {
+      plugin.preprocess(bundleFile, [ testFile ], function(order) {
 
         // then
         // resolve order: bundle, testFileStubs ...
@@ -173,17 +184,16 @@ describe('bro', function() {
     it ('should path through on updates', function(done) {
 
       // given
-      var config = createConfig();
-      var plugin = createPlugin(config);
+      var plugin = createPlugin();
 
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/b.js');
 
       // initial bundle creation
-      preprocess(plugin, bundleFile, [ testFile ], function() {
+      plugin.preprocess(bundleFile, [ testFile ], function() {
 
         // when
-        preprocess(plugin, bundleFile, [ testFile ], function() {
+        plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // then
 
@@ -204,14 +214,13 @@ describe('bro', function() {
     it('should handle bundle error', function(done) {
 
       // given
-      var config = createConfig();
-      var plugin = createPlugin(config);
+      var plugin = createPlugin();
 
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/error.js');
 
       // when
-      preprocess(plugin, bundleFile, [ testFile ], function(order) {
+      plugin.preprocess(bundleFile, [ testFile ], function(order) {
 
         // then
         expect(order).toEqual([ bundleFile, testFile ]);
@@ -247,14 +256,13 @@ describe('bro', function() {
       it('should update on change', function(done) {
 
         // given
-        var config = createConfig({ autoWatch: true });
-        var plugin = createPlugin(config);
+        var plugin = createPlugin({ autoWatch: true });
 
         var bundleFile = createFile(bundle.location);
         var testFile = createFile('test/fixtures/b.js');
 
         // initial bundle creation
-        preprocess(plugin, bundleFile, [ testFile ], function() {
+        plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
           bundle.update.reset();
@@ -282,14 +290,13 @@ describe('bro', function() {
       it('should handle bundle update error', function(done) {
 
         // given
-        var config = createConfig({ autoWatch: true });
-        var plugin = createPlugin(config);
+        var plugin = createPlugin({ autoWatch: true });
 
         var bundleFile = createFile(bundle.location);
         var testFile = createFile('test/fixtures/b.js');
 
         // initial bundle creation
-        preprocess(plugin, bundleFile, [ testFile ], function() {
+        plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
           bundle.update.reset();
