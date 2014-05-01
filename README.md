@@ -2,12 +2,24 @@
 
 [![Build Status](https://travis-ci.org/Nikku/karma-bro.svg?branch=master)](https://travis-ci.org/Nikku/karma-bro)
 
-A fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large CommonJS / browserify projects with ease.
+[Bro](https://github.com/Nikku/karma-bro) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
+
+
+## Features
+
+Bro is a preprocessor for Karma that combines test files and dependencies into a browserified bundle before tests get executed. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
+
+
+Some important features are
+
+* it builds one browserify bundle _only_
+* it incrementally updates the browserify bundle once tests and/or source files
+* it ensures tests are only once per test run
 
 
 ## Installation
 
-Get the plug-in via [npm](https://www.npmjs.org/):
+Get the plug-in via [npm](https://www.npmjs.org/)
 
 ```
 npm install --save-dev karma-bro
@@ -37,12 +49,12 @@ module.exports = function(karma) {
 }
 ```
 
-Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/example) for a simple `browserify` + `jasmine` project that uses `karma-bro`.
+Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
 
 
-#### Supported Browserify Options
+### Configure Browserify
 
-The following [browserify configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are supported through the `browserify: {}` block to tune the way file bundles are created:
+The way Bro creates browserified test bundles can be tuned through the `browserify` configuration property. The following [configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are supported:
 
 *   extensions
 *   builtins
@@ -51,7 +63,7 @@ The following [browserify configuration options](https://github.com/substack/nod
 *   resolve
 *   transform
 
-In addition, specify `debug: true` in the options to generate source maps.
+To generate source maps for easier debugging specify `debug: true` as an additional configuration option.
 
 
 ## Detailed Configuration
@@ -82,8 +94,8 @@ module.exports = function(karma) {
     // use autoWatch=true for quick and easy test re-execution once files change
     autoWatch: true,
 
-    // add additional browserify configurations here such as transforms
-    // and/or debug=true to generate source maps
+    // add additional browserify configuration properties here
+    // such as transform and/or debug=true to generate source maps
     browserify: {
       debug: true,
       transform: [ 'brfs' ]
@@ -93,19 +105,9 @@ module.exports = function(karma) {
 ```
 
 
-## Related Projects
+## Related
 
-Thanks goes to to [karma-browserify](https://github.com/xdissent/karma-browserify) and [karma-browserifast](https://github.com/cjohansen/karma-browserifast). Both influenced this project by providing prior integrations of [browserify](http://browserify.org) into [Karma](https://karma-runner.github.io).
-
-
-#### Differences
-
-There exist a number of noteworthy differences between `karma-bro` and the above mentioned projects:
-
-* It builds __only one browserify bundle__ and keeps that bundle updated incrementally once changes occur
-* It makes sure that individual tests are __only executed once__ per test run
-* For change detection during `autoWatch=true` it relies solely on [watchify](https://github.com/substack/watchify)
-* It provides a clean(er) syntax for configuring browserify
+Credit goes to to [karma-browserify](https://github.com/xdissent/karma-browserify) and [karma-browserifast](https://github.com/cjohansen/karma-browserifast). Bro builds on the lessons learned in these projects and offers improved configurability, speed and/or the ability to handle large projects.
 
 
 ## License
