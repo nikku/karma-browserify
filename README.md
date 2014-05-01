@@ -5,18 +5,6 @@
 [Bro](https://github.com/Nikku/karma-bro) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
 
-## Features
-
-Bro is a preprocessor for Karma that combines test files and dependencies into a browserified bundle before tests get executed. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
-
-
-Some important features are
-
-* it builds one browserify bundle _only_
-* it incrementally updates the browserify bundle once tests and/or source files
-* it ensures tests are only once per test run
-
-
 ## Installation
 
 Get the plug-in via [npm](https://www.npmjs.org/)
@@ -52,7 +40,7 @@ module.exports = function(karma) {
 Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
 
 
-### Configure Browserify
+### Browserify Config
 
 The way Bro creates browserified test bundles can be tuned through the `browserify` configuration property. The following [configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are supported:
 
@@ -66,9 +54,16 @@ The way Bro creates browserified test bundles can be tuned through the `browseri
 To generate source maps for easier debugging specify `debug: true` as an additional configuration option.
 
 
+## How it Works
+
+Bro is a preprocessor for Karma that combines test files and dependencies into a browserified bundle. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
+
+Before the initial test run Bro builds one browserify bundle for all test cases and dependencies. Once any of the files change, it incrementally updates the bundle. Each file included in karma is required from the file bundle via a stub. Thereby it ensures tests are only executed once per test run.
+
+
 ## Detailed Configuration
 
-The following code snippet shows a Karma configuration file with all `karma-bro` related options.
+The following code snippet shows a Karma configuration file with all Bro related options.
 
 ```javascript
 module.exports = function(karma) {
