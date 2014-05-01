@@ -26,6 +26,14 @@ module.exports = function(grunt) {
         specNameMatcher: '.*Spec'
       },
       all: [ 'test/spec' ]
+    },
+
+    release: {
+      options: {
+        commitMessage: 'chore(project): release v<%= version %>',
+        tagMessage: 'chore(project): tag v<%= version %>',
+        tagName: 'v<%= version %>'
+      }
     }
   });
 
