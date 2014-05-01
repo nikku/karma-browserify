@@ -5,7 +5,7 @@
     "karma-plugin",
     "browserify"
   ],
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "test": "grunt test",
     "travis": "grunt travis --verbose"
