@@ -16,7 +16,7 @@ npm install --save-dev karma-bro
 
 ## Usage
 
-Add `browserify` as the first framework used in your Karma configuration file. For each file that should be processed and bundled by karma, configure the `browserify` preprocessor. Optionally use the `browserify` config entry to configure how the bundle gets created.
+Add `browserify` as a framework to your Karma configuration file. For each file that should be processed and bundled by karma, configure the `browserify` preprocessor. Optionally use the `browserify` config entry to configure how the bundle gets created.
 
 
 ```javascript

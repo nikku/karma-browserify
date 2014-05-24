@@ -33,7 +33,7 @@ function createFile(path) {
 function createConfig(config) {
   config = config || {};
 
-  return _.merge(config, {
+  return _.extend({}, {
     basePath: '',
     files: [ createFilePattern('*.js') ],
     preprocessors: {
@@ -119,33 +119,69 @@ describe('bro', function() {
     return new TestPlugin(bro);
   }
 
+
   describe('framework', function() {
 
-    it('should prepend and init browserify bundle file', function() {
 
-      // given
-      var config = createConfig();
+    describe('init', function() {
 
-      // when
-      createPlugin(config);
+      it('should prepend and init bundle file', function() {
 
-      // then
-      expect(bundle.touch).toHaveBeenCalled();
+        // given
+        var config = createConfig();
 
-      expect(config.files[0].pattern).toEqual(bundle.location);
+        // when
+        createPlugin(config);
+
+        // then
+        expect(bundle.touch).toHaveBeenCalled();
+
+        expect(config.files[0].pattern).toEqual(bundle.location);
+      });
+
+
+      it('should insert bundle file right before first preprocessed file', function() {
+
+        // given
+        var config = createConfig({
+          files: [
+            { pattern: 'vendor/external.js' },
+            { pattern: 'foo/*Spec.js' }
+          ],
+          preprocessors: {
+            'foo/*Spec.js': [ 'browserify' ]
+          }
+        });
+
+        // when
+        createPlugin(config);
+
+        // expect bundle file to be inserted at pos=1
+        expect(config.files).toEqual([
+          { pattern : 'vendor/external.js' },
+          { pattern : bundle.location, served : true, included : true, watched : true },
+          { pattern : 'foo/*Spec.js' }
+        ]);
+
+      });
+
     });
 
 
-    it('should cleanup bundle file on exit', function() {
+    describe('cleanup', function() {
 
-      // given
-      createPlugin();
+      it('should remove bundle file on exit', function() {
 
-      // when
-      emitter.emit('exit', function() { });
+        // given
+        createPlugin();
 
-      // then
-      expect(bundle.remove).toHaveBeenCalled();
+        // when
+        emitter.emit('exit', function() { });
+
+        // then
+        expect(bundle.remove).toHaveBeenCalled();
+      });
+
     });
 
   });

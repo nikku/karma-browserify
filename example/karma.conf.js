@@ -1,9 +1,12 @@
+'use strict';
+
 module.exports = function(karma) {
   karma.set({
 
-    frameworks: [ 'browserify', 'jasmine' ],
+    frameworks: [ 'jasmine', 'browserify' ],
 
     files: [
+      'vendor/external.js',
       'test/**/*Spec.js'
     ],
 
