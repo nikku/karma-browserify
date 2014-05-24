@@ -72,8 +72,10 @@ module.exports = function(karma) {
     // include browserify first in used frameworks
     frameworks: [ 'browserify', 'jasmine' ],
 
-    // add all your files here
+    // add all your files here,
+    // including non-commonJS files you need to load before your test cases
     files: [
+      'some-non-cjs-library.js',
       'test/**/*.js'
     ],
 
