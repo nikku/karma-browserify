@@ -393,7 +393,7 @@ describe('bro', function() {
       // given
       var plugin = createPlugin({
         browserify: {
-          transform: [ [{ foo: 'bar' }, 'brfs'] ]
+          transform: [ ['brfs', { foo: 'bar' }] ]
         }
       });
 
