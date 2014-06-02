@@ -189,7 +189,6 @@ describe('bro', function() {
 
   describe('preprocessing', function() {
 
-
     it('should create bundle', function(done) {
 
       // given
@@ -217,7 +216,7 @@ describe('bro', function() {
     });
 
 
-    it ('should path through on updates', function(done) {
+    it('should path through on updates', function(done) {
 
       // given
       var plugin = createPlugin();
@@ -357,6 +356,60 @@ describe('bro', function() {
 
       });
 
+    });
+
+  });
+
+
+  describe('browserify', function() {
+
+    it('should configure transform', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          transform: [ 'brfs' ]
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/transform.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // bundle got created
+        expect(bundleFile.bundled).toContain("module.exports.text = '<' + \"HALLO\" + '>'");
+
+        done();
+      });
+    });
+
+
+    it('should configure transform with options', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          transform: [ [{ foo: 'bar' }, 'brfs'] ]
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/transform.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // bundle got created
+        expect(bundleFile.bundled).toContain("module.exports.text = '<' + \"HALLO\" + '>'");
+
+        done();
+      });
     });
 
   });
