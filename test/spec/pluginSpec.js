@@ -412,6 +412,30 @@ describe('bro', function() {
       });
     });
 
+    it('should configure plugin with options', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          plugin: [ ['tsify', { removeComments: true } ] ]
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/plugin.ts');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // bundle got created
+        expect(bundleFile.bundled).toContain("module.exports = plugin");
+
+        done();
+      });
+    });
+
   });
 
 });
