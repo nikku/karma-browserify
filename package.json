@@ -33,7 +33,8 @@
     "load-grunt-tasks": "~0.4.0",
     "karma": ">=0.10",
     "watchify": "^0.10.2",
-    "brfs": "^1.1.1"
+    "brfs": "^1.1.1",
+    "tsify": "^0.1.4"
   },
   "peerDependencies": {
     "karma": ">=0.10",

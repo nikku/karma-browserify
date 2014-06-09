@@ -50,6 +50,7 @@ The way Bro creates browserified test bundles can be tuned through the `browseri
 *   commondir
 *   resolve
 *   transform
+*   plugin
 
 To generate source maps for easier debugging specify `debug: true` as an additional configuration option.
 
