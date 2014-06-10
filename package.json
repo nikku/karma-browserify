@@ -27,12 +27,12 @@
   },
   "devDependencies": {
     "grunt": "~0.4.4",
-    "grunt-jasmine-node": "~0.2.1",
     "grunt-contrib-jshint": "~0.10.0",
+    "grunt-jasmine-node": "~0.2.1",
     "grunt-release": "~0.7.0",
     "load-grunt-tasks": "~0.4.0",
     "karma": ">=0.10",
-    "watchify": "~0.8",
+    "watchify": "^0.10.2",
     "brfs": "^1.1.1"
   },
   "peerDependencies": {
