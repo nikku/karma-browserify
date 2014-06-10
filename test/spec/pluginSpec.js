@@ -412,6 +412,34 @@ describe('bro', function() {
       });
     });
 
+
+    it('should configure debug with source map support', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          debug: true
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/a.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // contains source map
+        expect(bundleFile.bundled).toContain("//# sourceMappingURL");
+
+        // and has the parsed mapping attached
+        expect(bundleFile.sourceMap).toBeDefined();
+
+        done();
+      });
+    });
+
   });
 
 });
