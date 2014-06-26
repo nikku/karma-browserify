@@ -413,6 +413,30 @@ describe('bro', function() {
     });
 
 
+    it('should support prebundle in the options', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          prebundle: function(bundle) {
+            bundle.external('foobar');
+          }
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/prebundle.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+        // bundle got created
+        expect(bundleFile.bundled).not.toBe(null);
+        done();
+      });
+    });
+
     it('should configure debug with source map support', function(done) {
 
       // given

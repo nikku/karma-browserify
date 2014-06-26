@@ -54,6 +54,15 @@ The way Bro creates browserified test bundles can be tuned through the `browseri
 
 To generate source maps for easier debugging specify `debug: true` as an additional configuration option.
 
+In addition you can transform the bundle by calling the `prebundle` function. This is useful when you need to set up things like [externals](https://github.com/substack/node-browserify#external-requires):
+
+```javascript
+  browserify: {
+    prebundle: function(bundle) {
+      bundle.external('foobar');
+    }
+  }
+```
 
 ## How it Works
 
