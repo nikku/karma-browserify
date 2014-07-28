@@ -9,6 +9,12 @@ var Bro = require('../../lib/bro'),
 
 var stubs = require('./stubs');
 
+var chai = require('chai');
+
+
+var path = require('path'),
+    fs = require('fs');
+
 
 function delay(fn, time) {
   setTimeout(fn, time || 205);
@@ -24,9 +30,12 @@ function createFilePattern(file) {
   };
 }
 
-function createFile(path) {
+function createFile(p) {
   return {
-    path: path
+    path: path.resolve(p),
+    realContents: function() {
+      return fs.readFileSync(this.path, 'utf-8');
+    }
   };
 }
 
@@ -90,17 +99,20 @@ describe('bro', function() {
 
     bundle = new BundleFile();
 
-    spyOn(bundle, 'update').andCallThrough();
-    spyOn(bundle, 'touch').andCallThrough();
-    spyOn(bundle, 'remove').andCallThrough();
+    bundle.update = chai.spy(bundle.update);
+    bundle.touch = chai.spy(bundle.touch);
+    bundle.remove = chai.spy(bundle.remove);
 
     bro = new Bro(bundle);
   });
 
 
-  afterEach(function() {
-    bundle.remove();
+  afterEach(function(done) {
+    emitter.emit('exit', done);
   });
+
+  // increase timeout
+  this.timeout(8000);
 
 
   function createPlugin(config) {
@@ -134,9 +146,9 @@ describe('bro', function() {
         createPlugin(config);
 
         // then
-        expect(bundle.touch).toHaveBeenCalled();
+        expect(bundle.touch).to.have.been.called();
 
-        expect(config.files[0].pattern).toEqual(bundle.location);
+        expect(config.files[0].pattern).to.eql(bundle.location);
       });
 
 
@@ -157,7 +169,7 @@ describe('bro', function() {
         createPlugin(config);
 
         // expect bundle file to be inserted at pos=1
-        expect(config.files).toEqual([
+        expect(config.files).to.deep.eql([
           { pattern : 'vendor/external.js' },
           { pattern : bundle.location, served : true, included : true, watched : true },
           { pattern : 'foo/*Spec.js' }
@@ -179,7 +191,7 @@ describe('bro', function() {
         emitter.emit('exit', function() { });
 
         // then
-        expect(bundle.remove).toHaveBeenCalled();
+        expect(bundle.remove).to.have.been.called();
       });
 
     });
@@ -202,13 +214,13 @@ describe('bro', function() {
 
         // then
         // resolve order: bundle, testFileStubs ...
-        expect(order).toEqual([ bundleFile, testFile ]);
+        expect(order).to.eql([ bundleFile, testFile ]);
 
         // bundle got created
-        expect(bundleFile.bundled).toMatch(/require=\(.*\)/);
+        expect(bundleFile.bundled).to.contain('"' + path.resolve('test/fixtures/b.js') + '"');
 
         // test file stub got created
-        expect(testFile.bundled).toEqual('if (window.require) { require("./test/fixtures/b.js"); }');
+        expect(testFile.bundled).to.eql('/* bundled */');
 
         done();
       });
@@ -216,7 +228,7 @@ describe('bro', function() {
     });
 
 
-    it('should path through on updates', function(done) {
+    it('should pass through on updates', function(done) {
 
       // given
       var plugin = createPlugin();
@@ -233,10 +245,10 @@ describe('bro', function() {
           // then
 
           // bundle got passed through
-          expect(bundleFile.bundled).toMatch(/require=\(.*\)/);
+          expect(bundleFile.bundled).to.contain('"' + path.resolve('test/fixtures/b.js') + '"');
 
           // test file got regenerated
-          expect(testFile.bundled).toEqual('if (window.require) { require("./test/fixtures/b.js"); }');
+          expect(testFile.bundled).to.eql('/* bundled */');
 
           done();
         });
@@ -246,45 +258,21 @@ describe('bro', function() {
     });
 
 
-    it('should handle bundle error', function(done) {
-
-      // given
-      var plugin = createPlugin();
-
-      var bundleFile = createFile(bundle.location);
-      var testFile = createFile('test/fixtures/error.js');
-
-      // when
-      plugin.preprocess(bundleFile, [ testFile ], function(order) {
-
-        // then
-        expect(order).toEqual([ bundleFile, testFile ]);
-
-        // bundle is empty
-        expect(bundleFile.bundled).toBe(null);
-
-        // test file result reports error
-        expect(testFile.bundled).toBeDefined();
-        expect(testFile.bundled.message).toEqual('Unexpected token )');
-
-        done();
-      });
-    });
-
-
     describe('automatic rebuild (autoWatch=true)', function() {
 
-      // the file test/fixtures/a.js
-      // that is going to be updated
-      var file = new stubs.File(__dirname + '/../fixtures/a.js');
-
+      // remember test files and restore them later
+      // because they are going to be updated
+      var aFile = new stubs.File(__dirname + '/../fixtures/a.js');
+      var bFile = new stubs.File(__dirname + '/../fixtures/b.js');
 
       beforeEach(function() {
-        file.load();
+        aFile.load();
+        bFile.load();
       });
 
       afterEach(function() {
-        file.restore();
+        aFile.restore();
+        bFile.restore();
       });
 
 
@@ -300,25 +288,52 @@ describe('bro', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.reset();
+          bundle.update.__spy.calls = [];
+          bundle.update.__spy.called = false;
 
           // when
           // update bundle file
           delay(function() {
-            file.update('module.exports = "XXXX";');
+            aFile.update('module.exports = "UPDATED";');
           });
 
           // give watch a chance to trigger
           delay(function() {
 
             // then
-            expect(bundle.update).toHaveBeenCalled();
+            expect(bundle.update).to.have.been.called();
 
             done();
           }, 2000);
 
         });
 
+      });
+
+
+      it('should handle bundle error', function(done) {
+
+        // given
+        var plugin = createPlugin();
+
+        var bundleFile = createFile(bundle.location);
+        var testFile = createFile('test/fixtures/error.js');
+
+        // when
+        plugin.preprocess(bundleFile, [ testFile ], function(order) {
+
+          // then
+          expect(order).to.eql([ bundleFile, testFile ]);
+
+          // bundle reports error
+          expect(bundleFile.bundled).to.exist;
+          expect(bundleFile.bundled.message).to.eql('Unexpected token )');
+
+          // test file stub got created anyway
+          expect(testFile.bundled).to.eql('/* bundled */');
+
+          done();
+        });
       });
 
 
@@ -334,12 +349,13 @@ describe('bro', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.reset();
+          bundle.update.__spy.calls = [];
+          bundle.update.__spy.called = false;
 
           // when
           // update bundle file
           delay(function() {
-            file.update('unpoarsable / {{ code');
+            aFile.update('unpoarsable / {{ code');
           });
 
           // give watch a chance to trigger
@@ -347,7 +363,7 @@ describe('bro', function() {
 
             // then
             // no update on parse error
-            expect(bundle.update).not.toHaveBeenCalled();
+            expect(bundle.update).not.to.have.been.called();
 
             done();
           }, 2000);
@@ -355,6 +371,53 @@ describe('bro', function() {
         });
 
       });
+
+
+      // TODO(Nikku): Yup, aint gonna work on travis CI :-(
+      if (!process.env.TRAVIS) {
+
+        it('should handle file remove', function(done) {
+
+          // given
+          var plugin = createPlugin({ autoWatch: true });
+
+          var bundleFile = createFile(bundle.location);
+          var testFile = createFile('test/fixtures/b.js');
+
+          // initial bundle creation
+          plugin.preprocess(bundleFile, [ testFile ], function() {
+
+            // reset spy on bundle
+            bundle.update.__spy.calls = [];
+            bundle.update.__spy.called = false;
+
+            // when
+            // remove file
+            delay(function() {
+              bFile.remove();
+            });
+
+            // update a bundled file
+            delay(function() {
+              aFile.update('module.exports = "UPDATED";');
+            }, 500);
+
+            // give watch a chance to trigger
+            delay(function() {
+
+              // then
+              // update with file deleted
+              expect(bundle.update).to.have.been.called();
+
+              expect(bundleFile.realContents()).not.to.contain('b.js');
+              done();
+            }, 3000);
+
+          });
+
+        });
+
+      }
 
     });
 
@@ -381,7 +444,7 @@ describe('bro', function() {
         // then
 
         // bundle got created
-        expect(bundleFile.bundled).toContain("module.exports.text = '<' + \"HALLO\" + '>'");
+        expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
 
         done();
       });
@@ -406,7 +469,7 @@ describe('bro', function() {
         // then
 
         // bundle got created
-        expect(bundleFile.bundled).toContain("module.exports.text = '<' + \"HALLO\" + '>'");
+        expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
 
         done();
       });
@@ -432,10 +495,11 @@ describe('bro', function() {
 
         // then
         // bundle got created
-        expect(bundleFile.bundled).not.toBe(null);
+        expect(bundleFile.bundled).to.exist;
         done();
       });
     });
+
 
     it('should configure debug with source map support', function(done) {
 
@@ -455,10 +519,10 @@ describe('bro', function() {
         // then
 
         // contains source map
-        expect(bundleFile.bundled).toContain("//# sourceMappingURL");
+        expect(bundleFile.bundled).to.contain('//# sourceMappingURL');
 
         // and has the parsed mapping attached
-        expect(bundleFile.sourceMap).toBeDefined();
+        expect(bundleFile.sourceMap).to.exist;
 
         done();
       });
@@ -483,8 +547,8 @@ describe('bro', function() {
         // then
 
         // bundle file got processed via plug-in
-        expect(bundleFile.bundled).toContain('module.exports = plugin');
-        expect(bundleFile.bundled).not.toContain('// typescript');
+        expect(bundleFile.bundled).to.contain('module.exports = plugin');
+        expect(bundleFile.bundled).not.to.contain('// typescript');
 
         done();
       });

@@ -38,7 +38,7 @@
     "grunt-release": "~0.7.0",
     "karma": "^0.12.19",
     "load-grunt-tasks": "~0.4.0",
-    "tsify": "https://github.com/Nikku/tsify/archive/late-addition.tar.gz"
+    "tsify": "^0.3.1"
   },
   "peerDependencies": {
     "karma": ">=0.10"

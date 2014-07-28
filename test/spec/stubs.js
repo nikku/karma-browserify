@@ -72,6 +72,10 @@ function File(location) {
   this.load = load;
   this.update = write;
 
+  this.remove = function() {
+    fs.unlinkSync(location);
+  };
+
   this.restore = function() {
     write(contents);
   };
