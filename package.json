@@ -23,7 +23,8 @@
   "bugs": "https://github.com/Nikku/karma-bro/issues",
   "dependencies": {
     "convert-source-map": "~0.3.3",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "watchify": "^0.10.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
@@ -37,7 +38,6 @@
     "tsify": "^0.1.4"
   },
   "peerDependencies": {
-    "karma": ">=0.10",
-    "watchify": ">=0.6"
+    "karma": ">=0.10"
   }
 }
