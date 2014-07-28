@@ -38,6 +38,6 @@
   },
   "peerDependencies": {
     "karma": ">=0.10",
-    "watchify": ">=0.6"
+    "watchify": "^0.10.2"
   }
 }
