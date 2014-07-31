@@ -2,7 +2,6 @@
 
 We love you to contribute to this project by filing bugs or helping others on the [issue tracker](https://github.com/Nikku/karma-bro/issues) or by contributing features/bug fixes through pull requests.
 
-
 ## Working with issues
 
 We use our [issue tracker](https://github.com/Nikku/karma-bro/issues) for project communication.
@@ -13,9 +12,7 @@ When using the issue tracker,
 * Attach code samples, configuration options or stack traces that may indicate a problem
 * Be helpful and respect others when commenting
 
-
-Create a pull request if you would like to have an in-dept discussion about some piece of code.
-
+Create a pull request if you would like to have an in-depth discussion about some piece of code.
 
 ## Creating pull requests
 
@@ -33,8 +30,7 @@ Some things that make it easier for us to accept your pull requests
 * The commit messages adhere to our [guideline](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y)
 
 
-We are glad to assist you if you do not get these things right in the first place.
-
+We'd be glad to assist you if you do not get these things right in the first place.
 
 ## Maintaining the project
 
@@ -43,7 +39,6 @@ Some notes for us maintainers only.
 ### Merge pull-requests
 
 When merging, try to do it manually (rebase on current master). This avoids merge messages.
-
 
 ### Release the project
 
