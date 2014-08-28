@@ -21,11 +21,16 @@ module.exports = function(grunt) {
       }
     },
 
-    jasmine_node: {
-      options: {
-        specNameMatcher: '.*Spec'
-      },
-      all: [ 'test/spec' ]
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          require: [
+            './test/expect.js'
+          ]
+        },
+        src: ['test/spec/**/*.js']
+      }
     },
 
     release: {
@@ -38,7 +43,7 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('test', [ 'jasmine_node' ]);
+  grunt.registerTask('test', [ 'mochaTest' ]);
 
   grunt.registerTask('default', [ 'jshint', 'test' ]);
 

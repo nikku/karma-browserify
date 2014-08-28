@@ -24,18 +24,21 @@
   "dependencies": {
     "convert-source-map": "~0.3.3",
     "lodash": "~2.4.1",
-    "watchify": "^0.10.2"
+    "watchify": "^1.0.1",
+    "browserify": "^5.10.1"
   },
   "devDependencies": {
+    "brfs": "^1.2.0",
+    "chai": "^1.9.1",
+    "chai-spies": "^0.5.1",
     "grunt": "~0.4.4",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-jasmine-node": "~0.2.1",
+    "grunt-mocha-test": "^0.11.0",
     "grunt-release": "~0.7.0",
+    "karma": "^0.12.19",
     "load-grunt-tasks": "~0.4.0",
-    "karma": ">=0.10",
-    "watchify": "^0.10.2",
-    "brfs": "^1.1.1",
-    "tsify": "^0.1.4"
+    "tsify": "https://github.com/Nikku/tsify/archive/late-addition.tar.gz"
   },
   "peerDependencies": {
     "karma": ">=0.10"
