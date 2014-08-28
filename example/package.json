@@ -11,12 +11,14 @@
   ],
   "author": "Nico Rehwaldt <git_nikku@nixis.de>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "karma-chrome-launcher": "^0.1.4"
+  },
   "devDependencies": {
-    "karma": "~0.12",
-    "karma-jasmine": "~0.1.5",
-    "karma-phantomjs-launcher": "~0.1.4",
-    "karma-bro": "~0.6.0",
-    "brfs": "~1.1.1"
+    "karma": "^0.12.0",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-bro": "^0.6.0",
+    "brfs": "^1.2.0"
   }
 }
