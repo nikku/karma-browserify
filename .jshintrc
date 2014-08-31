@@ -1,7 +1,5 @@
 {
   "globals": {
-    "jasmine": false,
-    "spyOn": false,
     "it": false,
     "console": false,
     "describe": false,
@@ -18,8 +16,9 @@
   "maxlen":    120,
   "newcap":    false,
   "undef":     true,
-  "unused":    true,
+  "unused":    false,
   "onecase":   true,
+  "expr":      true,
   "lastsemic": true,
   "indent":    2
 }
