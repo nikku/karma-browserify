@@ -48,7 +48,6 @@ The way Bro creates browserified test bundles can be tuned through the `browseri
 *   builtins
 *   basedir
 *   commondir
-*   resolve
 *   transform
 *   plugin
 
