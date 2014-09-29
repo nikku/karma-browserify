@@ -177,6 +177,53 @@ describe('bro', function() {
 
       });
 
+      it('should insert bundle file before more-specific preprocessed pattern', function() {
+
+        // given
+        var config = createConfig({
+          files: [
+            { pattern: 'vendor/external.js' },
+            { pattern: 'foo/*Spec.js' }
+          ],
+          preprocessors: {
+            'foo/*.js': [ 'browserify' ]
+          }
+        });
+
+        // when
+        createPlugin(config);
+
+        // expect bundle file to be inserted at pos=1
+        // since foo/*Spec.js matches the foo/*.js glob
+        expect(config.files).to.deep.eql([
+          { pattern : 'vendor/external.js' },
+          { pattern : bundle.location, served : true, included : true, watched : true },
+          { pattern : 'foo/*Spec.js' }
+        ]);
+
+      });
+
+      it('should not insert bundle file before less-specific preprocessed pattern', function() {
+
+        // given
+        var config = createConfig({
+          files: [
+            { pattern: 'vendor/external.js' },
+            { pattern: 'foo/*.js' }
+          ],
+          preprocessors: {
+            'foo/*Spec.js': [ 'browserify' ]
+          }
+        });
+
+        // when
+        createPlugin(config);
+
+        // then
+        expect(config.files[0].pattern).to.eql(bundle.location);
+
+      });
+
     });
 
 
