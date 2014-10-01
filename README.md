@@ -127,6 +127,19 @@ module.exports = function(karma) {
 };
 ```
 
+## WebStorm
+
+Set the `webStorm` option to `true` in your Karma configuration. 
+
+```javascript
+module.exports = function(karma) {
+  karma.set({
+    webstorm: true,
+    // ...
+  });
+};
+```
+
 
 ## Related
 
