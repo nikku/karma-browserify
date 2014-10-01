@@ -134,7 +134,7 @@ Set the `webStorm` option to `true` in your Karma configuration.
 ```javascript
 module.exports = function(karma) {
   karma.set({
-    webstorm: true,
+    webStorm: true,
     // ...
   });
 };
