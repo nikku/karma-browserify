@@ -22,7 +22,7 @@
   },
   "bugs": "https://github.com/Nikku/karma-bro/issues",
   "dependencies": {
-    "browserify": "^5.10.1",
+    "browserify": "^6.0.2",
     "convert-source-map": "~0.3.3",
     "lodash": "~2.4.1",
     "minimatch": "^1.0.0",
