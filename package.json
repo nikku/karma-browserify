@@ -3,6 +3,7 @@
   "description": "A fast browserify integration for Karma that handles large projects with ease",
   "keywords": [
     "karma-plugin",
+    "karma-preprocessor",
     "browserify-tool",
     "browserify"
   ],
