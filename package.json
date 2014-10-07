@@ -23,7 +23,7 @@
   },
   "bugs": "https://github.com/Nikku/karma-bro/issues",
   "dependencies": {
-    "browserify": "^5.10.1",
+    "browserify": "^6.0.2",
     "convert-source-map": "~0.3.3",
     "lodash": "~2.4.1",
     "minimatch": "^1.0.0",
@@ -40,7 +40,7 @@
     "grunt-release": "~0.7.0",
     "karma": "^0.12.19",
     "load-grunt-tasks": "~0.4.0",
-    "tsify": "^0.3.1"
+    "tsify": "^0.5.0"
   },
   "peerDependencies": {
     "karma": ">=0.10"
