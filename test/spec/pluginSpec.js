@@ -84,7 +84,10 @@ function preprocess(bundle, testFiles, done) {
 
   process(plugin.bundlePreprocessor, bundle);
 
-  _.forEach(testFiles, function(file) {
+  // Karma does not necessarily preprocess test files in the order they are given.
+  var shuffledTestFiles = testFiles.slice(0).reverse();
+
+  _.forEach(shuffledTestFiles, function(file) {
     process(plugin.testFilePreprocessor, file);
   });
 }
