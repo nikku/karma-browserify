@@ -15,6 +15,8 @@ var chai = require('chai');
 var path = require('path'),
     fs = require('fs');
 
+var unpack = require('browser-unpack');
+
 
 function delay(fn, time) {
   setTimeout(fn, time || 205);
@@ -254,20 +256,28 @@ describe('bro', function() {
       var plugin = createPlugin();
 
       var bundleFile = createFile(bundle.location);
-      var testFile = createFile('test/fixtures/b.js');
+      var testFileB = createFile('test/fixtures/b.js');
+      var testFileC = createFile('test/fixtures/c.js');
 
       // when
-      plugin.preprocess(bundleFile, [ testFile ], function(order) {
+      plugin.preprocess(bundleFile, [ testFileB, testFileC ], function(order) {
 
         // then
         // resolve order: bundle, testFileStubs ...
-        expect(order).to.eql([ bundleFile, testFile ]);
+        expect(order).to.eql([ bundleFile, testFileB, testFileC ]);
 
         // bundle got created
-        expect(bundleFile.bundled).to.contain('"' + path.resolve('test/fixtures/b.js') + '"');
+        var entryPointFiles = unpack(bundleFile.bundled)
+          .filter(function (row) { return row.entry; })
+          .map(function (row) { return row.id; });
+        expect(entryPointFiles).to.eql([
+          path.resolve('test/fixtures/b.js'),
+          path.resolve('test/fixtures/c.js')
+        ]);
 
         // test file stub got created
-        expect(testFile.bundled).to.eql('/* bundled */');
+        expect(testFileB.bundled).to.eql('/* bundled */');
+        expect(testFileC.bundled).to.eql('/* bundled */');
 
         done();
       });
@@ -292,7 +302,10 @@ describe('bro', function() {
           // then
 
           // bundle got passed through
-          expect(bundleFile.bundled).to.contain('"' + path.resolve('test/fixtures/b.js') + '"');
+          var entryPointFiles = unpack(bundleFile.bundled)
+            .filter(function (row) { return row.entry; })
+            .map(function (row) { return row.id; });
+          expect(entryPointFiles).to.eql([ path.resolve('test/fixtures/b.js') ]);
 
           // test file got regenerated
           expect(testFile.bundled).to.eql('/* bundled */');
