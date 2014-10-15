@@ -94,7 +94,7 @@ function preprocess(bundle, testFiles, done) {
 }
 
 function expectedBundle(filename) {
-  return 'require("' + escape(filename) + '");';
+  return 'require("' + escape(path.relative('', filename)) + '");';
 }
 
 
@@ -274,8 +274,8 @@ describe('bro', function() {
         // bundle got created
         var bundledFiles = unpack(bundleFile.bundled)
           .map(function (row) { return row.id; });
-        expect(bundledFiles).to.contain('test/fixtures/c.js');
-        expect(bundledFiles).to.contain('test/fixtures/b.js');
+        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/c.js'));
+        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
 
         // test file stub got created
         expect(testFileB.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
@@ -306,7 +306,7 @@ describe('bro', function() {
           // bundle got passed through
           var bundledFiles = unpack(bundleFile.bundled)
             .map(function (row) { return row.id; });
-          expect(bundledFiles).to.contain('test/fixtures/b.js');
+          expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
 
           // test file got regenerated
           expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
