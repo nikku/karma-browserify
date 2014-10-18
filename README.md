@@ -42,14 +42,7 @@ Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/e
 
 ### Browserify Config
 
-The way Bro creates browserified test bundles can be tuned through the `browserify` configuration property. The following [configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are supported:
-
-*   extensions
-*   builtins
-*   basedir
-*   commondir
-*   transform
-*   plugin
+The way Bro creates browserified test bundles can be tuned through the `browserify` configuration property. The object is used as the [`opts` parameter](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts).
 
 
 #### Generate Source Maps
