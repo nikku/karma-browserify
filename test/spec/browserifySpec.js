@@ -32,7 +32,7 @@ describe('browserify', function() {
       // then
       expect(content).to.match(/^require=/);
 
-      expect(content).to.contain('{"./test/fixtures/a.js":[function(');
+      expect(content).to.contain('test/fixtures/a.js');
 
       done(err);
     });
