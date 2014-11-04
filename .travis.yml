@@ -14,3 +14,5 @@ deploy:
     secure: Z68dnamLZto2I8BUWpuZoBOlmieAdsHY5PoyLhHNooZWnNFoU2FboZaplNQSmrr5Ve+tv8GUhotcWCKsnIw/mJiDeHFed+oDgca39i+8xGSpu3f+zELqzVfU+bEVZ4zDlAgfNGNGSHkOpX2Vyyzb7RqTX4vs2EOLnT4J4VM8zig=
   on:
     tags: true
+    all_branches: true
+    repo: nikku/karma-bro
