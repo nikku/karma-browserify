@@ -65,6 +65,9 @@ If you use CoffeeScript, JSX or other tools that need to transform the source fi
 ```javascript
     browserify: {
       transform: [ 'reactify', 'coffeeify', 'brfs' ]
+      
+      // don't forget to register the extensions
+      extensions: ['.js', '.jsx', '.coffee']
     }
 ```
 
