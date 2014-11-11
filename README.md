@@ -23,7 +23,7 @@ Add `browserify` as a framework to your Karma configuration file. For each file 
 module.exports = function(karma) {
   karma.set({
 
-    frameworks: [ 'browserify', 'any', 'other', 'framework' ],
+    frameworks: [ 'browserify', 'jasmine', 'or', 'any', 'other', 'framework' ],
 
     preprocessors: {
       'test/**/*.js': [ 'browserify' ]
@@ -42,39 +42,65 @@ Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/e
 
 ### Browserify Config
 
-The way Bro creates browserified test bundles can be tuned through the `browserify` configuration property. The following [configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are supported:
+Test bundles can be configured through the `browserify` karma configuration property. [Configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are passed directly to browserify.
 
-*   extensions
-*   builtins
-*   basedir
-*   commondir
-*   transform
-*   plugin
+For example to generate source maps for easier debugging, specify:
 
+```javascript
+    browserify: {
+      debug: true
+    }
+```
 
-#### Generate Source Maps
+There are three properties that are not passed directly:
 
-Specify `debug: true` in the browserify options to generate source maps for easier debugging.
+* [transform](#transforms)
+* [plugin](#plugins)
+* [prebundle](#additional-bundle-configuration)
 
+#### Transforms
+
+If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/Nikku/karma-bro/issues/36)).
+
+```javascript
+    browserify: {
+      transform: [ 'reactify', 'coffeeify', 'brfs' ]
+      
+      // don't forget to register the extensions
+      extensions: ['.js', '.jsx', '.coffee']
+    }
+```
+
+You can also specify options for the transformations:
+
+```javascript
+    browserify: {
+      transform: [ ['reactify', {'es6': true}], 'coffeeify', 'brfs' ]
+    }
+```
+
+#### Plugins
+
+The [browserify plugin](https://github.com/substack/node-browserify#bpluginplugin-opts) option supports the same syntax as `transform`.
+
+```javascript
+    browserify: {
+      plugin: [ 'stringify' ]
+    }
+```
 
 #### Additional Bundle Configuration
 
 You may perform additional configuration in a function that you pass as the `prebundle` option and that receives the bundle as an argument. This is useful when you need to set up things like [externals](https://github.com/substack/node-browserify#external-requires):
 
 ```javascript
-module.exports = function(karma) {
-  karma.set({
-
-    // ...
-
     browserify: {
       prebundle: function(bundle) {
         bundle.external('foobar');
       }
     }
-  });
-};
 ```
+
 
 ## How it Works
 

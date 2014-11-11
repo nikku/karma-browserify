@@ -30,6 +30,7 @@ describe('browserify', function() {
     bundler.bundle(function(err, content) {
       content = content && content.toString('utf-8');
 
+      // then
       content = content + '\nexpect(require(moduleName)).to.equal("A");';
       vm.runInNewContext(content, {
         expect: expect,

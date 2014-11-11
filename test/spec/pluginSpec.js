@@ -274,8 +274,8 @@ describe('bro', function() {
         // bundle got created
         var bundledFiles = unpack(bundleFile.bundled)
           .map(function (row) { return row.id; });
-        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/c.js'));
         expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
+        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/c.js'));
 
         // test file stub got created
         expect(testFileB.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
