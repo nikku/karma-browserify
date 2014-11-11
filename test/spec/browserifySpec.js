@@ -1,7 +1,8 @@
 'use strict';
 
 var browserify = require('browserify');
-
+var path = require('path');
+var vm = require('vm');
 
 function delay(fn, time) {
   setTimeout(fn, time);
@@ -29,10 +30,11 @@ describe('browserify', function() {
     bundler.bundle(function(err, content) {
       content = content && content.toString('utf-8');
 
-      // then
-      expect(content).to.match(/^require=/);
-
-      expect(content).to.contain('{"./test/fixtures/a.js":[function(');
+      content = content + '\nexpect(require(moduleName)).to.equal("A");';
+      vm.runInNewContext(content, {
+        expect: expect,
+        moduleName: '/' + path.relative('.', 'test/fixtures/a.js')
+      });
 
       done(err);
     });
