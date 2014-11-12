@@ -17,6 +17,7 @@ var path = require('path'),
 
 var unpack = require('browser-unpack');
 
+var escape = require('js-string-escape');
 
 function delay(fn, time) {
   setTimeout(fn, time || 205);
@@ -72,7 +73,7 @@ function preprocess(bundle, testFiles, done) {
     processed.push(file);
 
     if (processed.length == total) {
-      done(processed);
+      done();
     }
   }
 
@@ -84,9 +85,16 @@ function preprocess(bundle, testFiles, done) {
 
   process(plugin.bundlePreprocessor, bundle);
 
-  _.forEach(testFiles, function(file) {
+  // Karma does not necessarily preprocess test files in the order they are given.
+  var shuffledTestFiles = testFiles.slice(0).reverse();
+
+  _.forEach(shuffledTestFiles, function(file) {
     process(plugin.testFilePreprocessor, file);
   });
+}
+
+function expectedBundle(filename) {
+  return 'require("' + escape(path.relative('', filename)) + '");';
 }
 
 
@@ -260,24 +268,18 @@ describe('bro', function() {
       var testFileC = createFile('test/fixtures/c.js');
 
       // when
-      plugin.preprocess(bundleFile, [ testFileB, testFileC ], function(order) {
+      plugin.preprocess(bundleFile, [ testFileB, testFileC ], function() {
 
         // then
-        // resolve order: bundle, testFileStubs ...
-        expect(order).to.eql([ bundleFile, testFileB, testFileC ]);
-
         // bundle got created
-        var entryPointFiles = unpack(bundleFile.bundled)
-          .filter(function (row) { return row.entry; })
+        var bundledFiles = unpack(bundleFile.bundled)
           .map(function (row) { return row.id; });
-        expect(entryPointFiles).to.eql([
-          path.resolve('test/fixtures/b.js'),
-          path.resolve('test/fixtures/c.js')
-        ]);
+        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
+        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/c.js'));
 
         // test file stub got created
-        expect(testFileB.bundled).to.eql('/* bundled */');
-        expect(testFileC.bundled).to.eql('/* bundled */');
+        expect(testFileB.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
+        expect(testFileC.bundled).to.eql(expectedBundle('test/fixtures/c.js'));
 
         done();
       });
@@ -302,13 +304,12 @@ describe('bro', function() {
           // then
 
           // bundle got passed through
-          var entryPointFiles = unpack(bundleFile.bundled)
-            .filter(function (row) { return row.entry; })
+          var bundledFiles = unpack(bundleFile.bundled)
             .map(function (row) { return row.id; });
-          expect(entryPointFiles).to.eql([ path.resolve('test/fixtures/b.js') ]);
+          expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
 
           // test file got regenerated
-          expect(testFile.bundled).to.eql('/* bundled */');
+          expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
 
           done();
         });
@@ -380,17 +381,15 @@ describe('bro', function() {
         var testFile = createFile('test/fixtures/error.js');
 
         // when
-        plugin.preprocess(bundleFile, [ testFile ], function(order) {
+        plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // then
-          expect(order).to.eql([ bundleFile, testFile ]);
-
           // bundle reports error
           expect(bundleFile.bundled).to.exist;
           expect(bundleFile.bundled.message).to.eql('Unexpected token )');
 
           // test file stub got created anyway
-          expect(testFile.bundled).to.eql('/* bundled */');
+          expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/error.js'));
 
           done();
         });
@@ -469,7 +468,7 @@ describe('bro', function() {
               // update with file deleted
               expect(bundle.update).to.have.been.called();
 
-              expect(bundleFile.realContents()).not.to.contain('b.js');
+              expect(bundleFile.realContents()).not.to.contain('/b.js');
               done();
             }, 3000);
 
