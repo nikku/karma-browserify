@@ -1,23 +1,15 @@
 'use strict';
 
-var _ = require('lodash');
-
-var events = require('events');
-
-var Bro = require('../../lib/bro'),
-    BundleFile = require('../../lib/bundle-file');
-
-var stubs = require('./stubs');
-
-var chai = require('chai');
-
-
-var path = require('path'),
-    fs = require('fs');
-
-var unpack = require('browser-unpack');
-
-var escape = require('js-string-escape');
+var _          = require('lodash');
+var events     = require('events');
+var Bro        = require('../../lib/bro');
+var BundleFile = require('../../lib/bundle-file');
+var stubs      = require('./stubs');
+var chai       = require('chai');
+var path       = require('path');
+var fs         = require('fs');
+var unpack     = require('browser-unpack');
+var escape     = require('js-string-escape');
 
 function delay(fn, time) {
   setTimeout(fn, time || 205);

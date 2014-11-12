@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 
-
 function Logger() {
 
   var logged = this.logged = [];
