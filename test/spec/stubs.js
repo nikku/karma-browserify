@@ -30,6 +30,10 @@ function Logger() {
     log('error', arguments);
   };
 
+  this.warn = function() {
+    log('warn', arguments);
+  };
+
   this.debug = function() {
     log('debug', arguments);
   };
