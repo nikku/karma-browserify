@@ -65,7 +65,7 @@ If you use CoffeeScript, JSX or other tools that need to transform the source fi
 ```javascript
     browserify: {
       transform: [ 'reactify', 'coffeeify', 'brfs' ]
-      
+
       // don't forget to register the extensions
       extensions: ['.js', '.jsx', '.coffee']
     }
@@ -104,9 +104,9 @@ You may perform additional configuration in a function that you pass as the `pre
 
 ## How it Works
 
-Bro is a preprocessor for Karma that combines test files and dependencies into a browserified bundle. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
+This project is a preprocessor for Karma that combines test files and dependencies into a browserified bundle. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
 
-Before the initial test run Bro builds one browserify bundle for all test cases and dependencies. Once any of the files change, it incrementally updates the bundle. Each file included in karma is required from the file bundle via a stub. Thereby it ensures tests are only executed once per test run.
+Before the initial test run we build one browserify bundle for all test cases and dependencies. Once any of the files change, it incrementally updates the bundle. Each file included in karma is required from the file bundle via a stub. Thereby it ensures tests are only executed once per test run.
 
 
 ## Detailed Configuration
@@ -156,7 +156,7 @@ module.exports = function(karma) {
 
 ## Related
 
-Credit goes to to [karma-browserify](https://github.com/xdissent/karma-browserify) and [karma-browserifast](https://github.com/cjohansen/karma-browserifast). Bro builds on the lessons learned in these projects and offers improved configurability, speed and/or the ability to handle large projects.
+Credit goes to to the original [karma-browserify](https://github.com/xdissent/karma-browserify) and [karma-browserifast](https://github.com/cjohansen/karma-browserifast). This library builds on the lessons learned in these projects and offers improved configurability, speed and/or the ability to handle large projects.
 
 
 
