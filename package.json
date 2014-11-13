@@ -13,7 +13,8 @@
     "travis": "grunt travis --verbose"
   },
   "authors": [
-    "Nico Rehwaldt <git_nikku@nixis.de>"
+    "Nico Rehwaldt <git_nikku@nixis.de>",
+    "Ben Drucker <bvdrucker@gmail.com>"
   ],
   "main": "index.js",
   "license": "MIT",
