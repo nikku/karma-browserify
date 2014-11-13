@@ -1,6 +1,6 @@
-# karma-bro
+> __This project has renamed to [karma-browserify](https://github.com/Nikku/karma-browserify) as of version `1.0`__.
 
-[![Build Status](https://travis-ci.org/Nikku/karma-bro.svg?branch=master)](https://travis-ci.org/Nikku/karma-bro)
+# karma-bro
 
 [Bro](https://github.com/Nikku/karma-bro) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
@@ -65,7 +65,7 @@ If you use CoffeeScript, JSX or other tools that need to transform the source fi
 ```javascript
     browserify: {
       transform: [ 'reactify', 'coffeeify', 'brfs' ]
-      
+
       // don't forget to register the extensions
       extensions: ['.js', '.jsx', '.coffee']
     }
