@@ -1,10 +1,10 @@
 # How to contribute
 
-We love you to contribute to this project by filing bugs or helping others on the [issue tracker](https://github.com/Nikku/karma-bro/issues) or by contributing features/bug fixes through pull requests.
+We love you to contribute to this project by filing bugs or helping others on the [issue tracker](https://github.com/Nikku/karma-browserify/issues) or by contributing features/bug fixes through pull requests.
 
 ## Working with issues
 
-We use our [issue tracker](https://github.com/Nikku/karma-bro/issues) for project communication.
+We use our [issue tracker](https://github.com/Nikku/karma-browserify/issues) for project communication.
 When using the issue tracker,
 
 * Be descriptive when creating an issue (what, where, when and how does a problem pop up)?

@@ -1,5 +1,5 @@
 {
-  "name": "karma-bro",
+  "name": "karma-browserify",
   "description": "A fast browserify integration for Karma that handles large projects with ease",
   "keywords": [
     "karma-plugin",
@@ -19,9 +19,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Nikku/karma-bro.git"
+    "url": "git@github.com:Nikku/karma-browserify.git"
   },
-  "bugs": "https://github.com/Nikku/karma-bro/issues",
+  "bugs": "https://github.com/Nikku/karma-browserify/issues",
   "dependencies": {
     "browserify": "^6.3.2",
     "convert-source-map": "~0.3.3",

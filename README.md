@@ -1,8 +1,8 @@
-# karma-bro
+# karma-browserify
 
-[![Build Status](https://travis-ci.org/Nikku/karma-bro.svg?branch=master)](https://travis-ci.org/Nikku/karma-bro)
+[![Build Status](https://travis-ci.org/Nikku/karma-browserify.svg?branch=master)](https://travis-ci.org/Nikku/karma-browserify)
 
-[Bro](https://github.com/Nikku/karma-bro) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
+[karma-browserify](https://github.com/Nikku/karma-browserify) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
 
 ## Installation
@@ -10,7 +10,7 @@
 Get the plug-in via [npm](https://www.npmjs.org/)
 
 ```
-npm install --save-dev karma-bro
+npm install --save-dev karma-browserify
 ```
 
 
@@ -37,7 +37,7 @@ module.exports = function(karma) {
 }
 ```
 
-Look at the [example directory](https://github.com/Nikku/karma-bro/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
+Look at the [example directory](https://github.com/Nikku/karma-browserify/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
 
 
 ### Browserify Config
@@ -60,7 +60,7 @@ There are three properties that are not passed directly:
 
 #### Transforms
 
-If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/Nikku/karma-bro/issues/36)).
+If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/Nikku/karma-browserify/issues/36)).
 
 ```javascript
     browserify: {

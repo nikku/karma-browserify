@@ -1,13 +1,13 @@
 {
-  "name": "karma-bro-example",
+  "name": "karma-browserify-example",
   "version": "0.0.0",
-  "description": "An example project using karma-bro",
+  "description": "An example project using karma-browserify",
   "main": "lib/a.js",
   "scripts": {
     "test": "karma start"
   },
   "keywords": [
-    "karma-bro"
+    "karma-browserify"
   ],
   "author": "Nico Rehwaldt <git_nikku@nixis.de>",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "karma": "^0.12.0",
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "karma-bro": "^0.6.0",
+    "karma-browserify": "^0.6.0",
     "brfs": "^1.2.0"
   }
 }
