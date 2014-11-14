@@ -24,7 +24,7 @@ module.exports = function(karma) {
   karma.set({
 
     frameworks: [ 'browserify', 'jasmine', 'or', 'any', 'other', 'framework' ],
-
+    files: ['test/**/*.js'],
     preprocessors: {
       'test/**/*.js': [ 'browserify' ]
     },
