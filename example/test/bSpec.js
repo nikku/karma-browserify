@@ -7,7 +7,7 @@ var b = require('../lib/b');
 
 describe('b', function() {
 
-  var expected = fs.readFileSync(__dirname + '/expected.txt', 'utf-8');
+  var expected = fs.readFileSync(__dirname + '/expected.txt', 'utf8');
 
 
   it('should equal fixture contents', function() {
