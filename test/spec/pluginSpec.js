@@ -378,7 +378,7 @@ describe('bro', function() {
           // then
           // bundle reports error
           expect(bundleFile.bundled).to.exist;
-          expect(bundleFile.bundled.message).to.eql('Unexpected token )');
+          expect(bundleFile.bundled.message).to.eql('Unexpected token');
 
           // test file stub got created anyway
           expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/error.js'));
