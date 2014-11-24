@@ -13,7 +13,7 @@ module.exports = function(karma) {
     reporters: [ 'dots' ],
 
     preprocessors: {
-      'test/**/*Spec.js': [ 'browserify' ]
+      'test/**/*Spec.js': [ 'browserify', ]
     },
 
     browsers: [ 'PhantomJS' ],
@@ -26,7 +26,7 @@ module.exports = function(karma) {
     // browserify configuration
     browserify: {
       debug: true,
-      transform: [ 'brfs' ]
+      transform: [ 'brfs', 'browserify-shim' ]
     }
   });
 };

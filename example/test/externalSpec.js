@@ -1,6 +1,6 @@
 'use strict';
 
-var external = require('../lib/external');
+var external = require('external');
 
 
 describe('external', function() {
