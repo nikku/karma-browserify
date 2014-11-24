@@ -7,16 +7,12 @@ module.exports = function(karma) {
 
     files: [
       'vendor/external.js',
-      // source file, accidently included
-      // (there is usually no reason to do this)
-      'lib/a.js',
       'test/**/*Spec.js'
     ],
 
     reporters: [ 'dots' ],
 
     preprocessors: {
-      'lib/*.js': [ 'browserify' ],
       'test/**/*Spec.js': [ 'browserify' ]
     },
 
