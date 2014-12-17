@@ -605,6 +605,67 @@ describe('bro', function() {
       });
     });
 
+
+    it('should persist transforms', function(done) {
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/transform.js');
+      var plugin = createPlugin({
+        browserify: {
+          transform: [ 'brfs' ],
+          // Hook into bundler/pipeline events for success/error
+          prebundle: function(bundle) {
+            // After first bundle
+            bundle.once('bundled', function (err) {
+              // Fail if there was an error
+              if (err) return done(err);
+              // Set up error/success handlers
+              bundle.on('bundle', function (pipeline) {
+                pipeline
+                  .on('error', done)
+                  .on('end', function() {
+                    expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
+                    done();
+                  });
+              });
+              // Rebundle
+              plugin.preprocess(bundleFile, [ testFile ], function() {});
+            });
+          }
+        }
+      });
+      // Initial bundle
+      plugin.preprocess(bundleFile, [ testFile ], function() {});
+    });
+
+
+    it('should persist plugins', function(done) {
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/plugin.ts');
+      var plugin = createPlugin({
+        browserify: {
+          plugin: [ ['tsify', { removeComments: true } ] ],
+          // Hook into bundler/pipeline events for success/error
+          prebundle: function(bundle) {
+            // After first bundle
+            bundle.once('bundled', function (err) {
+              // Fail if there was an error
+              if (err) return done(err);
+              // Set up error/success handlers
+              bundle.on('bundle', function (pipeline) {
+                pipeline
+                  .on('error', done)
+                  .on('end', done);
+              });
+              // Rebundle
+              plugin.preprocess(bundleFile, [ testFile ], function() {});
+            });
+          }
+        }
+      });
+      // Initial bundle
+      plugin.preprocess(bundleFile, [ testFile ], function() {});
+    });
+
   });
 
 });
