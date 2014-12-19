@@ -23,8 +23,7 @@ describe('browserify', function() {
   it('should expose external require', function(done) {
 
     // given
-    bundler.add('./test/fixtures/a.js');
-    bundler.require('./test/fixtures/a.js', { expose: './test/fixtures/a.js' });
+    bundler.require('./test/fixtures/a.js', { expose: 'a' });
 
     // when
     bundler.bundle(function(err, content) {
@@ -34,7 +33,7 @@ describe('browserify', function() {
       content = content + '\nexpect(require(moduleName)).to.equal("A");';
       vm.runInNewContext(content, {
         expect: expect,
-        moduleName: '/' + path.relative('.', 'test/fixtures/a.js')
+        moduleName: 'a'
       });
 
       done(err);

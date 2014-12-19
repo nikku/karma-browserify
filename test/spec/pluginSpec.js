@@ -85,10 +85,21 @@ function preprocess(bundle, testFiles, done) {
   });
 }
 
-function expectedBundle(filename) {
-  return 'require("' + escape(path.relative('', filename)) + '");';
+function expectedBundleFile(filename) {
+  return escape(path.resolve(filename));
 }
 
+function expectedBundle(filename) {
+  return 'require("' + expectedBundleFile(filename) + '");';
+}
+
+function expectBundleContainments(bundleFile, testFiles) {
+  var extractedFiles = unpack(bundleFile.bundled).map(function(row) { return row.id; });
+  
+  _.forEach(testFiles, function(f) {
+    expect(extractedFiles).to.contain(f.path);
+  });
+}
 
 describe('bro', function() {
 
@@ -264,11 +275,8 @@ describe('bro', function() {
 
         // then
         // bundle got created
-        var bundledFiles = unpack(bundleFile.bundled)
-          .map(function (row) { return row.id; });
-        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/c.js'));
-        expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
-
+        expectBundleContainments(bundleFile, [ testFileB, testFileC ]);
+        
         // test file stub got created
         expect(testFileB.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
         expect(testFileC.bundled).to.eql(expectedBundle('test/fixtures/c.js'));
@@ -296,9 +304,7 @@ describe('bro', function() {
           // then
 
           // bundle got passed through
-          var bundledFiles = unpack(bundleFile.bundled)
-            .map(function (row) { return row.id; });
-          expect(bundledFiles).to.contain(path.relative('', 'test/fixtures/b.js'));
+          expectBundleContainments(bundleFile, [ testFile ]);
 
           // test file got regenerated
           expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
@@ -462,7 +468,7 @@ describe('bro', function() {
 
               expect(bundleFile.realContents()).not.to.contain('/b.js');
               done();
-            }, 3000);
+            }, 5000);
 
           });
 
@@ -547,6 +553,8 @@ describe('bro', function() {
         // then
         // bundle got created
         expect(bundleFile.bundled).to.exist;
+        expect(bundleFile.bundled).to.contain('require(\'foobar\')');
+
         done();
       });
     });
@@ -607,33 +615,41 @@ describe('bro', function() {
 
 
     it('should persist transforms', function(done) {
+      // given
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/transform.js');
+      
       var plugin = createPlugin({
         browserify: {
           transform: [ 'brfs' ],
           // Hook into bundler/pipeline events for success/error
           configure: function(bundle) {
-            // After first bundle
+            
+            // after first bundle
             bundle.once('bundled', function (err) {
-              // Fail if there was an error
+              
+              // fail if there was an error
               if (err) return done(err);
-              // Set up error/success handlers
+              
+              // set up error/success handlers
               bundle.on('bundle', function (pipeline) {
                 pipeline
                   .on('error', done)
                   .on('end', function() {
+                    console.log(bundleFile.bundled);
                     expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
                     done();
                   });
               });
-              // Rebundle
+              
+              // rebundle
               plugin.preprocess(bundleFile, [ testFile ], function() {});
             });
           }
         }
       });
-      // Initial bundle
+      
+      // initial bundle
       plugin.preprocess(bundleFile, [ testFile ], function() {});
     });
 
