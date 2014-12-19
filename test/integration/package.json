@@ -1,0 +1,22 @@
+{
+  "name": "karma-browserify-integration",
+  "version": "0.0.0",
+  "description": "An integration test project for karma-browserify",
+  "main": "lib/a.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "keywords": [
+    "karma-browserify"
+  ],
+  "author": "Nico Rehwaldt <git_nikku@nixis.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "brfs": "^1.2.0",
+    "karma": "^0.12.0",
+    "karma-browserify": "../../",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
