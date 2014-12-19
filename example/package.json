@@ -11,9 +11,6 @@
   ],
   "author": "Nico Rehwaldt <git_nikku@nixis.de>",
   "license": "MIT",
-  "dependencies": {
-    "karma-chrome-launcher": "^0.1.4"
-  },
   "devDependencies": {
     "brfs": "^1.2.0",
     "browserify-shim": "~3.8.0",
