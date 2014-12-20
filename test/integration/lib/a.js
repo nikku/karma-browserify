@@ -1,1 +1,1 @@
-module.exports = require('./c');
+module.exports = require('./common').a;

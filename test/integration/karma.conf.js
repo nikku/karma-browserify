@@ -9,6 +9,9 @@ module.exports = function(karma) {
       // external (non-browserified) library that exposes a global
       'vendor/external.js',
 
+      // external (browserified) bundle
+      'prebundled/common.js',
+
       // source file, accidently included
       // (there is usually no reason to do this)
       'lib/a.js',
@@ -25,7 +28,7 @@ module.exports = function(karma) {
     preprocessors: {
       'lib/a.js': [ 'browserify' ],
       'test/*Spec.js': [ 'browserify' ],
-      'test/helper.js': [ 'browserify' ],
+      'test/helper.js': [ 'browserify' ]
     },
 
     browsers: [ 'PhantomJS' ],
@@ -38,7 +41,15 @@ module.exports = function(karma) {
     // browserify configuration
     browserify: {
       debug: true,
-      transform: [ 'brfs' ]
+      transform: [ 'brfs' ],
+
+      // configure browserify
+      configure: function(b) {
+
+        b.on('prebundle', function() {
+          b.external('lib/common.js');
+        });
+      }
     }
   });
 };

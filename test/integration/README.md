@@ -24,3 +24,10 @@ karma start
 ```
 karma start --auto-watch --no-single-run --browsers=Chrome
 ```
+
+
+## Recreate prebundled common module
+
+```
+npm install browserify && node_modules/.bin/browserify -r ./lib/common.js -o prebundled/common.js
+```
