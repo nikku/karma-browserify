@@ -527,19 +527,19 @@ describe('bro', function() {
     });
 
 
-    it('should support prebundle in the options', function(done) {
+    it('should support configure hook in the options', function(done) {
 
       // given
       var plugin = createPlugin({
         browserify: {
-          prebundle: function(bundle) {
+          configure: function(bundle) {
             bundle.external('foobar');
           }
         }
       });
 
       var bundleFile = createFile(bundle.location);
-      var testFile = createFile('test/fixtures/prebundle.js');
+      var testFile = createFile('test/fixtures/configure.js');
 
       // when
       plugin.preprocess(bundleFile, [ testFile ], function() {
@@ -613,7 +613,7 @@ describe('bro', function() {
         browserify: {
           transform: [ 'brfs' ],
           // Hook into bundler/pipeline events for success/error
-          prebundle: function(bundle) {
+          configure: function(bundle) {
             // After first bundle
             bundle.once('bundled', function (err) {
               // Fail if there was an error
@@ -645,7 +645,7 @@ describe('bro', function() {
         browserify: {
           plugin: [ ['tsify', { removeComments: true } ] ],
           // Hook into bundler/pipeline events for success/error
-          prebundle: function(bundle) {
+          configure: function(bundle) {
             // After first bundle
             bundle.once('bundled', function (err) {
               // Fail if there was an error
