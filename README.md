@@ -56,7 +56,7 @@ There are three properties that are not passed directly:
 
 * [transform](#transforms)
 * [plugin](#plugins)
-* [prebundle](#additional-bundle-configuration)
+* [configure](#additional-bundle-configuration)
 
 #### Transforms
 
@@ -91,12 +91,14 @@ The [browserify plugin](https://github.com/substack/node-browserify#bpluginplugi
 
 #### Additional Bundle Configuration
 
-You may perform additional configuration in a function that you pass as the `prebundle` option and that receives the bundle as an argument. This is useful when you need to set up things like [externals](https://github.com/substack/node-browserify#external-requires):
+You may perform additional configuration in a function passed as the `configure` option and that receives the browserify instance as an argument. A custom `prebundle` event is emitted on the bundle right before a bundling operation takes place. This is useful when setting up things like [externals](https://github.com/substack/node-browserify#external-requires):
 
 ```javascript
     browserify: {
-      prebundle: function(bundle) {
-        bundle.external('foobar');
+      configure: function(bundle) {
+        bundle.on('prebundle', function() {
+          bundle.external('foobar');      
+        });
       }
     }
 ```
@@ -144,9 +146,10 @@ module.exports = function(karma) {
     browserify: {
       debug: true,
       transform: [ 'brfs' ],
-      prebundle: function(bundle) {
-        // additional configuration, e.g. externals
-        bundle.external('foobar');
+      configure: function(bundle) {
+        bundle.on('prebundle', function() {
+          bundle.external('foobar');      
+        });
       }
     }
   });
