@@ -3,6 +3,8 @@
 module.exports = function(karma) {
   karma.set({
 
+    plugins: ['karma-*', require('../..')],
+
     frameworks: [ 'jasmine', 'browserify' ],
 
     files: [
