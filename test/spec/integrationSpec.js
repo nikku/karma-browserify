@@ -15,6 +15,7 @@ describe('karma-browserify', function() {
     runner = new Runner();
   });
 
+  this.timeout(10 * 1000);
 
   it('should perform a simple run', function(done) {
     
@@ -26,8 +27,6 @@ describe('karma-browserify', function() {
 
 
   it('should not double bundle on test file change', function(done) {
-
-    this.timeout(5000);
 
     var runCount = 0;
     runner.on('run_start', function() {
@@ -52,8 +51,6 @@ describe('karma-browserify', function() {
 
 
   it('should not rebundle if file change is outside bundle', function(done) {
-
-    this.timeout(5000);
 
     var bundleCount = 0;
 
