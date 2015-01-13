@@ -1,8 +1,8 @@
 # karma-browserify
 
-[![Build Status](https://travis-ci.org/Nikku/karma-browserify.svg?branch=master)](https://travis-ci.org/Nikku/karma-browserify)
+[![Build Status](https://travis-ci.org/nikku/karma-browserify.svg?branch=master)](https://travis-ci.org/nikku/karma-browserify)
 
-[karma-browserify](https://github.com/Nikku/karma-browserify) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
+[karma-browserify](https://github.com/nikku/karma-browserify) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
 
 ## Installation
@@ -37,7 +37,7 @@ module.exports = function(karma) {
 }
 ```
 
-Look at the [example directory](https://github.com/Nikku/karma-browserify/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
+Look at the [example directory](https://github.com/nikku/karma-browserify/tree/master/example) for a simple [browserify](http://browserify.org) + [jasmine](http://jasmine.github.io) project that uses this plug-in.
 
 
 ### Browserify Config
@@ -60,7 +60,7 @@ There are three properties that are not passed directly:
 
 #### Transforms
 
-If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/Nikku/karma-browserify/issues/36)).
+If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/nikku/karma-browserify/issues/36)).
 
 ```javascript
     browserify: {
@@ -97,7 +97,7 @@ You may perform additional configuration in a function passed as the `configure`
     browserify: {
       configure: function(bundle) {
         bundle.on('prebundle', function() {
-          bundle.external('foobar');      
+          bundle.external('foobar');
         });
       }
     }
@@ -148,7 +148,7 @@ module.exports = function(karma) {
       transform: [ 'brfs' ],
       configure: function(bundle) {
         bundle.on('prebundle', function() {
-          bundle.external('foobar');      
+          bundle.external('foobar');
         });
       }
     }
@@ -166,7 +166,7 @@ Credit goes to to the original [karma-browserify](https://github.com/xdissent/ka
 ## Maintainers
 
 * [Ben Drucker](https://github.com/bendrucker)
-* [Nico Rehwaldt](https://github.com/Nikku)
+* [Nico Rehwaldt](https://github.com/nikku)
 
 
 ## License
