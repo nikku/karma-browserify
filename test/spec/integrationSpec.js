@@ -18,7 +18,7 @@ describe('karma-browserify', function() {
   this.timeout(10 * 1000);
 
   it('should perform a simple run', function(done) {
-    
+
     runner.start(singleRunConfig, function(result) {
       expect(result).to.equal(0);
       done();
@@ -35,7 +35,7 @@ describe('karma-browserify', function() {
 
     // touch file to trigger additional run
     runner.once('run_complete', function() {
-      
+
       runner.once('run_complete', function() {
         runner.stopAfter(2000);
       });
@@ -73,4 +73,48 @@ describe('karma-browserify', function() {
       done();
     });
   });
+
+
+  it('should detect file rename', function(done) {
+
+    var fs = require('fs');
+
+    var FILE_NAME = 'test/integration/test/aSpec.js',
+        UPDATED_FILE_NAME = 'test/integration/test/xxaSpec.js';
+
+    this.timeout(15000);
+
+    var bundleCount = 0;
+
+    runner.once('framework', function() {
+      runner.bundler.on('bundle', function() {
+        bundleCount++;
+      });
+    });
+
+    runner.once('run_complete', function() {
+
+      fs.renameSync(FILE_NAME, UPDATED_FILE_NAME);
+
+      runner.once('run_complete', function() {
+
+        fs.renameSync(UPDATED_FILE_NAME, FILE_NAME);
+
+        runner.once('run_complete', function() {
+          runner.stopAfter(500);
+        });
+      });
+    });
+
+
+    runner.start(autoWatchConfig, function() {
+      // assert file remove + restore triggered
+      // two additional bundling runs
+      expect(bundleCount >= 2).to.equal(true);
+
+      done();
+    });
+
+  });
+
 });

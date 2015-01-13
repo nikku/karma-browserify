@@ -1,15 +1,16 @@
 'use strict';
 
-var _          = require('lodash');
-var events     = require('events');
-var Bro        = require('../../lib/bro');
-var BundleFile = require('../../lib/bundle-file');
-var stubs      = require('./stubs');
-var chai       = require('chai');
-var path       = require('path');
-var fs         = require('fs');
-var unpack     = require('browser-unpack');
-var escape     = require('js-string-escape');
+var _              = require('lodash');
+var events         = require('events');
+var Bro            = require('../../lib/bro');
+var BundleFile     = require('../../lib/bundle-file');
+var RestorableFile = require('../restorable-file');
+var LoggerFactory  = require('./logger-factory');
+var chai           = require('chai');
+var path           = require('path');
+var fs             = require('fs');
+var unpack         = require('browser-unpack');
+var escape         = require('js-string-escape');
 
 function delay(fn, time) {
   setTimeout(fn, time || 205);
@@ -95,20 +96,20 @@ function expectedBundle(filename) {
 
 function expectBundleContainments(bundleFile, testFiles) {
   var extractedFiles = unpack(bundleFile.bundled).map(function(row) { return row.id; });
-  
+
   _.forEach(testFiles, function(f) {
     expect(extractedFiles).to.contain(f.path);
   });
 }
 
-describe('bro', function() {
+describe('karma-browserify', function() {
 
   var emitter, loggerFactory, bundle, bro;
 
   beforeEach(function() {
 
     emitter = new events.EventEmitter();
-    loggerFactory = new stubs.LoggerFactory();
+    loggerFactory = new LoggerFactory();
 
     bundle = new BundleFile();
 
@@ -146,7 +147,6 @@ describe('bro', function() {
 
 
   describe('framework', function() {
-
 
     describe('init', function() {
 
@@ -276,7 +276,7 @@ describe('bro', function() {
         // then
         // bundle got created
         expectBundleContainments(bundleFile, [ testFileB, testFileC ]);
-        
+
         // test file stub got created
         expect(testFileB.bundled).to.eql(expectedBundle('test/fixtures/b.js'));
         expect(testFileC.bundled).to.eql(expectedBundle('test/fixtures/c.js'));
@@ -321,8 +321,8 @@ describe('bro', function() {
 
       // remember test files and restore them later
       // because they are going to be updated
-      var aFile = new stubs.File(__dirname + '/../fixtures/a.js');
-      var bFile = new stubs.File(__dirname + '/../fixtures/b.js');
+      var aFile = new RestorableFile(__dirname + '/../fixtures/a.js');
+      var bFile = new RestorableFile(__dirname + '/../fixtures/b.js');
 
       beforeEach(function() {
         aFile.load();
@@ -618,19 +618,19 @@ describe('bro', function() {
       // given
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/transform.js');
-      
+
       var plugin = createPlugin({
         browserify: {
           transform: [ 'brfs' ],
           // Hook into bundler/pipeline events for success/error
           configure: function(bundle) {
-            
+
             // after first bundle
             bundle.once('bundled', function (err) {
-              
+
               // fail if there was an error
               if (err) return done(err);
-              
+
               // set up error/success handlers
               bundle.on('bundle', function (pipeline) {
                 pipeline
@@ -641,14 +641,14 @@ describe('bro', function() {
                     done();
                   });
               });
-              
+
               // rebundle
               plugin.preprocess(bundleFile, [ testFile ], function() {});
             });
           }
         }
       });
-      
+
       // initial bundle
       plugin.preprocess(bundleFile, [ testFile ], function() {});
     });

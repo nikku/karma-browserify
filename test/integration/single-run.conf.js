@@ -8,15 +8,17 @@ module.exports = function(karma) {
   karma.set({
     files: [
       'vendor/external.js',
+      'test/aSpec.js',
+      'test/xxaSpec.js',
       'test/externalSpec.js'
     ],
 
     preprocessors: {
-      'test/externalSpec.js': [ 'browserify' ]
+      'test/*.js': [ 'browserify' ]
     },
 
     reporters: [],
 
-    logLevel: 'ERROR',
+    logLevel: 'ERROR'
   });
 };
