@@ -35,12 +35,9 @@ describe('karma-browserify', function() {
 
     // touch file to trigger additional run
     runner.once('run_complete', function() {
-
-      runner.once('run_complete', function() {
-        runner.stopAfter(2000);
-      });
-
       touch('test/integration/test/externalSpec.js');
+      
+      runner.stopAfter(2000);
     });
 
     runner.start(autoWatchConfig, function() {
@@ -62,9 +59,9 @@ describe('karma-browserify', function() {
 
     // touch external file
     runner.once('run_complete', function() {
-      touch('test/integration/vendor/external.js', function () {
-        runner.stopAfter(2000);
-      });
+      touch('test/integration/vendor/external.js');
+
+      runner.stopAfter(2000);
     });
 
     runner.start(autoWatchConfig, function() {
@@ -93,19 +90,14 @@ describe('karma-browserify', function() {
     });
 
     runner.once('run_complete', function() {
-
       fs.renameSync(FILE_NAME, UPDATED_FILE_NAME);
 
       runner.once('run_complete', function() {
-
         fs.renameSync(UPDATED_FILE_NAME, FILE_NAME);
-
-        runner.once('run_complete', function() {
-          runner.stopAfter(500);
-        });
       });
-    });
 
+      runner.stopAfter(5000);
+    });
 
     runner.start(autoWatchConfig, function() {
       // assert file remove + restore triggered

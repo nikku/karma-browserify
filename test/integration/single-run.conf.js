@@ -17,6 +17,10 @@ module.exports = function(karma) {
       'test/*.js': [ 'browserify' ]
     },
 
+    browserify: {
+      debug: true
+    },
+    
     reporters: [],
 
     logLevel: 'ERROR'

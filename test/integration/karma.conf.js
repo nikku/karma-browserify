@@ -1,5 +1,8 @@
 'use strict';
 
+var platformSuffix = /^win/.test(process.platform) ? '-win' : '',
+    prebundledCommon = 'prebundled/common' + platformSuffix + '.js';
+
 module.exports = function(karma) {
   karma.set({
 
@@ -12,7 +15,7 @@ module.exports = function(karma) {
       'vendor/external.js',
 
       // external (browserified) bundle
-      'prebundled/common.js',
+      prebundledCommon,
 
       // source file, accidently included
       // (there is usually no reason to do this)

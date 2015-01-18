@@ -12,6 +12,8 @@ var fs             = require('fs');
 var unpack         = require('browser-unpack');
 var escape         = require('js-string-escape');
 
+var BUNDLE_UPDATE_CHECK_DELAY = 3000;
+
 function delay(fn, time) {
   setTimeout(fn, time || 205);
 }
@@ -363,7 +365,7 @@ describe('karma-browserify', function() {
             expect(bundle.update).to.have.been.called();
 
             done();
-          }, 2000);
+          }, BUNDLE_UPDATE_CHECK_DELAY);
 
         });
 
@@ -423,7 +425,7 @@ describe('karma-browserify', function() {
             expect(bundle.update).not.to.have.been.called();
 
             done();
-          }, 2000);
+          }, BUNDLE_UPDATE_CHECK_DELAY);
 
         });
 
@@ -468,7 +470,7 @@ describe('karma-browserify', function() {
 
               expect(bundleFile.realContents()).not.to.contain('/b.js');
               done();
-            }, 5000);
+            }, BUNDLE_UPDATE_CHECK_DELAY);
 
           });
 
