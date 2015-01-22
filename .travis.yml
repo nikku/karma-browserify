@@ -15,4 +15,4 @@ deploy:
   on:
     tags: true
     all_branches: true
-    repo: Nikku/karma-browserify
+    repo: nikku/karma-browserify
