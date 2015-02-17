@@ -26,6 +26,7 @@
   "dependencies": {
     "browserify": "nikku/node-browserify#8.0.2-karma-browserify",
     "convert-source-map": "~0.3.3",
+    "hat": "0.0.3",
     "js-string-escape": "^1.0.0",
     "lodash": "~2.4.1",
     "minimatch": "^1.0.0",
