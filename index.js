@@ -2,13 +2,23 @@
 
 var Bro = require('./lib/bro');
 
+function framework(injector, bro) {
+  return injector.invoke(bro.framework);
+}
 
-var bro = new Bro();
+function testFilePreprocessor(injector, bro) {
+  return injector.invoke(bro.testFilePreprocessor);
+}
+
+function bundlePreprocessor(injector, bro) {
+  return injector.invoke(bro.bundlePreprocessor);
+}
 
 module.exports = {
-  'framework:browserify': [ 'factory', bro.framework ],
-  'preprocessor:browserify': [ 'factory', bro.testFilePreprocessor ],
-  'preprocessor:browserify-bundle': [ 'factory', bro.bundlePreprocessor ]
+  'bro': [ 'type', Bro ],
+  'framework:browserify': [ 'factory', framework ],
+  'preprocessor:browserify': [ 'factory', testFilePreprocessor ],
+  'preprocessor:browserify-bundle': [ 'factory', bundlePreprocessor ]
 };
 
 
