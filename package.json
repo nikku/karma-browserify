@@ -31,7 +31,7 @@
     "lodash": "~2.4.1",
     "minimatch": "^1.0.0",
     "os-shim": "~0.1.2",
-    "watchify": "^2.4.0"
+    "watchify": "^3.0.0"
   },
   "devDependencies": {
     "brfs": "^1.4.0",
