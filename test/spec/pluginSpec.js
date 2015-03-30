@@ -432,7 +432,7 @@ describe('karma-browserify', function() {
       });
 
 
-      // TODO(Nikku): Yup, aint gonna work on travis CI :-(
+      // TODO(nikku): Yup, aint gonna work on travis CI :-(
       if (!process.env.TRAVIS) {
 
         it('should handle file remove', function(done) {
@@ -638,7 +638,6 @@ describe('karma-browserify', function() {
                 pipeline
                   .on('error', done)
                   .on('end', function() {
-                    console.log(bundleFile.bundled);
                     expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
                     done();
                   });
