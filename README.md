@@ -103,6 +103,20 @@ You may perform additional configuration in a function passed as the `configure`
     }
 ```
 
+You'll also need to use the `'prebundle'` event for full control over the order of transforms and plugins:
+
+```javascript
+    browserify: {
+      configure: function(bundle) {
+        bundle.once('prebundle', function() {
+          bundle.transform('babelify').plugin('proxyquireify/plugin');
+        });
+      }
+    }
+```
+
+Note that transforms must only be added once.
+
 
 ## How it Works
 
