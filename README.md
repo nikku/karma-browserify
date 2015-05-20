@@ -16,7 +16,7 @@ npm install --save-dev karma-browserify
 
 ## Usage
 
-Add `browserify` as a framework to your Karma configuration file. For each file that should be processed and bundled by karma, configure the `browserify` preprocessor. Optionally use the `browserify` config entry to configure how the bundle gets created.
+Add `browserify` as a framework to your Karma configuration file. For each file that should be processed and bundled by Karma, configure the `browserify` preprocessor. Optionally use the `browserify` config entry to configure how the bundle gets created.
 
 
 ```javascript
@@ -42,7 +42,7 @@ Look at the [example directory](https://github.com/nikku/karma-browserify/tree/m
 
 ### Browserify Config
 
-Test bundles can be configured through the `browserify` karma configuration property. [Configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are passed directly to browserify.
+Test bundles can be configured through the `browserify` Karma configuration property. [Configuration options](https://github.com/substack/node-browserify#var-b--browserifyfiles-or-opts) are passed directly to browserify.
 
 For example to generate source maps for easier debugging, specify:
 
@@ -57,10 +57,12 @@ There are three properties that are not passed directly:
 * [transform](#transforms)
 * [plugin](#plugins)
 * [configure](#additional-bundle-configuration)
+* bundleDelay
+
 
 #### Transforms
 
-If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (karma preprocessors are [not supported](https://github.com/nikku/karma-browserify/issues/36)).
+If you use CoffeeScript, JSX or other tools that need to transform the source file before bundling, specify a [browserify transform](https://github.com/substack/node-browserify#btransformtr-opts) (Karma preprocessors are [not supported](https://github.com/nikku/karma-browserify/issues/36)).
 
 ```javascript
     browserify: {
@@ -118,11 +120,22 @@ You'll also need to use the `'prebundle'` event for full control over the order 
 Note that transforms must only be added once.
 
 
+### Watchify Config
+
+You can configure the underlying [watchify](https://github.com/substack/watchify) instance via `config.watchify`. This is helpful if you need to fine tune the change detection used during `autoWatch=true`.
+
+```javascript
+    watchify: {
+      poll: true
+    }
+```
+
+
 ## How it Works
 
 This project is a preprocessor for Karma that combines test files and dependencies into a browserified bundle. It relies on [watchify](https://github.com/substack/watchify) to generate the bundle and to keep it updated during `autoWatch=true`.
 
-Before the initial test run we build one browserify bundle for all test cases and dependencies. Once any of the files change, it incrementally updates the bundle. Each file included in karma is required from the file bundle via a stub. Thereby it ensures tests are only executed once per test run.
+Before the initial test run we build one browserify bundle for all test cases and dependencies. Once any of the files change, it incrementally updates the bundle. Each file included in Karma is required from the file bundle via a stub. Thereby it ensures tests are only executed once per test run.
 
 
 ## Detailed Configuration
