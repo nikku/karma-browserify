@@ -49,11 +49,36 @@ function createConfig(config) {
   }, config);
 }
 
+function expectedBundleFile(filename) {
+  return escape(path.resolve(filename));
+}
+
+function expectedBundle(filename) {
+  return 'require("' + expectedBundleFile(filename) + '");';
+}
+
+function expectBundleContainments(bundleFile, testFiles) {
+  var extractedFiles = unpack(bundleFile.bundled).map(function(row) { return row.id; });
+
+  _.forEach(testFiles, function(f) {
+    expect(extractedFiles).to.contain(f.path);
+  });
+}
+
+/**
+ * A test karma plugin, wrapping bro.
+ */
+function TestPlugin(bro, emitter, config, loggerFactory) {
+  this.framework = bro.framework(emitter, config, loggerFactory);
+  this.testFilePreprocessor = bro.testFilePreprocessor(config);
+  this.bundlePreprocessor = bro.bundlePreprocessor(config);
+}
+
 /**
  * Preprocess bundle and test files, collect async results
  * and call the callback with all files in the order they have been processed.
  */
-function preprocess(bundle, testFiles, done) {
+TestPlugin.prototype.preprocess = function preprocess(bundle, testFiles, done) {
 
   /*jshint validthis:true */
   var plugin = this;
@@ -86,23 +111,8 @@ function preprocess(bundle, testFiles, done) {
   _.forEach(shuffledTestFiles, function(file) {
     process(plugin.testFilePreprocessor, file);
   });
-}
+};
 
-function expectedBundleFile(filename) {
-  return escape(path.resolve(filename));
-}
-
-function expectedBundle(filename) {
-  return 'require("' + expectedBundleFile(filename) + '");';
-}
-
-function expectBundleContainments(bundleFile, testFiles) {
-  var extractedFiles = unpack(bundleFile.bundled).map(function(row) { return row.id; });
-
-  _.forEach(testFiles, function(f) {
-    expect(extractedFiles).to.contain(f.path);
-  });
-}
 
 describe('karma-browserify', function() {
 
@@ -132,19 +142,9 @@ describe('karma-browserify', function() {
 
 
   function createPlugin(config) {
-
     config = createConfig(config);
 
-    function TestPlugin(bro) {
-
-      this.framework = bro.framework(emitter, config, loggerFactory);
-      this.testFilePreprocessor = bro.testFilePreprocessor(config);
-      this.bundlePreprocessor = bro.bundlePreprocessor(config);
-
-      this.preprocess = preprocess.bind(this);
-    }
-
-    return new TestPlugin(bro);
+    return new TestPlugin(bro, emitter, config, loggerFactory);
   }
 
 
@@ -617,6 +617,7 @@ describe('karma-browserify', function() {
 
 
     it('should persist transforms', function(done) {
+
       // given
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/transform.js');
@@ -631,16 +632,18 @@ describe('karma-browserify', function() {
             bundle.once('bundled', function (err) {
 
               // fail if there was an error
-              if (err) return done(err);
+              if (err) {
+                return done(err);
+              }
 
               // set up error/success handlers
-              bundle.on('bundle', function (pipeline) {
-                pipeline
-                  .on('error', done)
-                  .on('end', function() {
-                    expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
-                    done();
-                  });
+              bundle.on('bundled', function(err, contents) {
+                if (err) {
+                  return done(err);
+                }
+
+                expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
+                done();
               });
 
               // rebundle
@@ -656,6 +659,7 @@ describe('karma-browserify', function() {
 
 
     it('should persist plugins', function(done) {
+
       var bundleFile = createFile(bundle.location);
       var testFile = createFile('test/fixtures/plugin.ts');
       var plugin = createPlugin({
@@ -666,19 +670,20 @@ describe('karma-browserify', function() {
             // After first bundle
             bundle.once('bundled', function (err) {
               // Fail if there was an error
-              if (err) return done(err);
+              if (err) {
+                return done(err);
+              }
+
               // Set up error/success handlers
-              bundle.on('bundle', function (pipeline) {
-                pipeline
-                  .on('error', done)
-                  .on('end', done);
-              });
+              bundle.once('bundled', done);
+
               // Rebundle
               plugin.preprocess(bundleFile, [ testFile ], function() {});
             });
           }
         }
       });
+
       // Initial bundle
       plugin.preprocess(bundleFile, [ testFile ], function() {});
     });
