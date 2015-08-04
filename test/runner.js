@@ -22,7 +22,18 @@ Runner.prototype.start = function(configFile, config, done) {
   if ('function' !== typeof done) done = function() {};
 
   this.running = true;
-  karma.server.start(this.configure(configFile, config), done);
+
+  var karmaConfiguration = this.configure(configFile, config);
+
+  // karma >= v0.13.x
+  if (karma.Server) {
+    var server = new karma.Server(karmaConfiguration, done);
+    server.start();
+  }
+  // karma <= v0.12.x
+  else {
+    karma.server.start(karmaConfiguration, done);
+  }
 };
 
 Runner.prototype.stop = function() {
