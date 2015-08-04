@@ -24,14 +24,14 @@
   },
   "bugs": "https://github.com/nikku/karma-browserify/issues",
   "dependencies": {
-    "browserify": "^10.2.1",
+    "browserify": "10.2.3",
     "convert-source-map": "~0.3.3",
     "hat": "0.0.3",
     "js-string-escape": "^1.0.0",
     "lodash": "~2.4.1",
     "minimatch": "^1.0.0",
     "os-shim": "~0.1.2",
-    "watchify": "^3.2.1"
+    "watchify": "3.2.1"
   },
   "devDependencies": {
     "brfs": "^1.4.0",
