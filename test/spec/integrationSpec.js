@@ -36,8 +36,8 @@ describe('karma-browserify', function() {
     // touch file to trigger additional run
     runner.once('run_complete', function() {
       touch('test/integration/test/externalSpec.js');
-      
-      runner.stopAfter(2000);
+
+      runner.stopAfter(4000);
     });
 
     runner.start(autoWatchConfig, function() {
@@ -61,7 +61,7 @@ describe('karma-browserify', function() {
     runner.once('run_complete', function() {
       touch('test/integration/vendor/external.js');
 
-      runner.stopAfter(2000);
+      runner.stopAfter(4000);
     });
 
     runner.start(autoWatchConfig, function() {
@@ -79,7 +79,7 @@ describe('karma-browserify', function() {
     var FILE_NAME = 'test/integration/test/aSpec.js',
         UPDATED_FILE_NAME = 'test/integration/test/xxaSpec.js';
 
-    this.timeout(15000);
+    this.timeout(20000);
 
     var bundleCount = 0;
 
@@ -96,7 +96,7 @@ describe('karma-browserify', function() {
         fs.renameSync(UPDATED_FILE_NAME, FILE_NAME);
       });
 
-      runner.stopAfter(5000);
+      runner.stopAfter(7000);
     });
 
     runner.start(autoWatchConfig, function() {
