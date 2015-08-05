@@ -1,23 +1,19 @@
 language: node_js
 node_js:
-  - '0.10'
-  - '0.12'
-  - iojs
-
+- '0.10'
+- '0.12'
+- iojs
 sudo: false
-
 script:
-  - npm test
-
+- npm test
 before_install:
-  - npm install -g npm@~1.4.6
-  - npm install -g grunt-cli
-
+- npm install -g npm@~1.4.6
+- npm install -g grunt-cli
 deploy:
   provider: npm
-  email: 'git_nikku@nixis.de'
+  email: git_nikku@nixis.de
   api_key:
-    secure: Z68dnamLZto2I8BUWpuZoBOlmieAdsHY5PoyLhHNooZWnNFoU2FboZaplNQSmrr5Ve+tv8GUhotcWCKsnIw/mJiDeHFed+oDgca39i+8xGSpu3f+zELqzVfU+bEVZ4zDlAgfNGNGSHkOpX2Vyyzb7RqTX4vs2EOLnT4J4VM8zig=
+    secure: J7dPdifl7BhIZIOcN9KosNC3XpwzXTke7OsN8gB9JQS7mqwBMdarNUbQsR6pJoTbX7LPPCIT9pMCi5CPj8txjqSZjqfr4thFVZPdPJAS4guVo0M+dK4JUqk5MMuQksAVMPC12pizunOmmt3l9nWrfz6toHhdqMME1eK1ywBeB2k=
   on:
     tags: true
     all_branches: true
