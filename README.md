@@ -140,7 +140,7 @@ Before the initial test run we build one browserify bundle for all test cases an
 
 ## Detailed Configuration
 
-The following code snippet shows a Karma configuration file with all Bro related options.
+The following code snippet shows a Karma configuration file with all browserify-related options.
 
 ```javascript
 module.exports = function(karma) {
