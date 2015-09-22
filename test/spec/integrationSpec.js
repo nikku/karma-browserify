@@ -15,6 +15,10 @@ describe('karma-browserify', function() {
     runner = new Runner();
   });
 
+  afterEach(function() {
+    runner.stop();
+  });
+
   this.timeout(10 * 1000);
 
   it('should perform a simple run', function(done) {
