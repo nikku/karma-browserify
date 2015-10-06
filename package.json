@@ -24,7 +24,7 @@
   },
   "bugs": "https://github.com/nikku/karma-browserify/issues",
   "dependencies": {
-    "browserify": "10.2.3",
+    "browserify": "11.0.x",
     "convert-source-map": "~0.3.3",
     "hat": "0.0.3",
     "js-string-escape": "^1.0.0",
