@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+var isString = require('lodash/lang/isString');
 
 function Logger() {
 
@@ -12,7 +12,7 @@ function Logger() {
     args = Array.prototype.slice.call(args);
     logged.push(prefix + args.join(' '));
 
-    if (_.isString(args[0])) {
+    if (isString(args[0])) {
       args[0] = prefix + args[0];
     } else {
       args.unshift(prefix);

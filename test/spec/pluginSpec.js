@@ -1,6 +1,5 @@
 'use strict';
 
-var _              = require('lodash');
 var events         = require('events');
 var Bro            = require('../../lib/bro');
 var BundleFile     = require('../../lib/bundle-file');
@@ -11,6 +10,9 @@ var path           = require('path');
 var fs             = require('fs');
 var unpack         = require('browser-unpack');
 var escape         = require('js-string-escape');
+
+var assign         = require('lodash/object/assign'),
+    forEach        = require('lodash/collection/forEach');
 
 var BUNDLE_UPDATE_CHECK_DELAY = 3000;
 
@@ -40,7 +42,7 @@ function createFile(p) {
 function createConfig(config) {
   config = config || {};
 
-  return _.extend({}, {
+  return assign({}, {
     basePath: '',
     files: [ createFilePattern('*.js') ],
     preprocessors: {
@@ -60,7 +62,7 @@ function expectedBundle(filename) {
 function expectBundleContainments(bundleFile, testFiles) {
   var extractedFiles = unpack(bundleFile.bundled).map(function(row) { return row.id; });
 
-  _.forEach(testFiles, function(f) {
+  forEach(testFiles, function(f) {
     expect(extractedFiles).to.contain(f.path);
   });
 }
@@ -108,7 +110,7 @@ TestPlugin.prototype.preprocess = function preprocess(bundle, testFiles, done) {
   // Karma does not necessarily preprocess test files in the order they are given.
   var shuffledTestFiles = testFiles.slice(0).reverse();
 
-  _.forEach(shuffledTestFiles, function(file) {
+  forEach(shuffledTestFiles, function(file) {
     process(plugin.testFilePreprocessor, file);
   });
 };

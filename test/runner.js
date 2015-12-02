@@ -1,10 +1,11 @@
 'use strict';
 
 var karma = require('karma'),
-  events = require('events'),
-  util = require('util'),
-  path = require('path'),
-  _ = require('lodash');
+    events = require('events'),
+    util = require('util'),
+    path = require('path');
+
+var assign = require('lodash/object/assign');
 
 function Runner() {
   this.reset();
@@ -63,9 +64,9 @@ Runner.prototype.configure = function(configFile, config) {
   configFile = path.resolve(configFile);
   var karmaConfig = {};
   require(configFile)({
-    set: function(conf) { _.assign(karmaConfig, conf); }
+    set: function(conf) { assign(karmaConfig, conf); }
   });
-  config = _.assign({}, karmaConfig, config);
+  config = assign({}, karmaConfig, config);
   return {
     configFile: configFile,
     frameworks: (config.frameworks || ['browserify']).concat('runner'),
