@@ -119,6 +119,32 @@ You'll also need to use the `'prebundle'` event for full control over the order 
 
 Note that transforms must only be added once.
 
+#### Using a different version of browserify
+
+This plugin ships with a specific version of browserify, which is used by default. You can optionally configure a different browserify version.
+
+First you will have to add browserify as a dependency to your own project. For example: `npm install browserify@^12.0.0 --save-dev` _(this command modifies `package.json` for you)_.
+
+You should then set the `createBrowserify` option:
+
+```javascript
+    browserify: {
+      createBrowserify: require('browserify')
+    }
+```
+
+If the `createBrowserify` option is set, its value must be a function which accepts a single argument with browserify options and returns a new bundle:
+
+```javascript
+    browserify: {
+      createBrowserify: function(options) {
+        var browserify = require('browserify');
+        var bundle = browserify(options);
+        return bundle;
+      }
+    }
+```
+
 
 ### Watchify Config
 
