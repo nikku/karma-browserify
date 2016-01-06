@@ -563,6 +563,41 @@ describe('karma-browserify', function() {
       });
     });
 
+    it('should support createBrowserify option', function(done) {
+
+      // given
+      var createdBundle;
+      var plugin = createPlugin({
+        browserify: {
+          createBrowserify: function(options) {
+            expect(options).to.be.ok;
+            expect(arguments.length).to.equal(1);
+            createdBundle = require('browserify')(options);
+            return createdBundle;
+          },
+          configure: function(bundle) {
+            expect(bundle).to.equal(createdBundle);
+            bundle.external('foobar');
+          }
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/configure.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+        // bundle got created
+        expect(createdBundle).to.be.ok;
+        expect(bundleFile.bundled).to.exist;
+        expect(bundleFile.bundled).to.contain('require(\'foobar\')');
+
+        done();
+      });
+    });
+
 
     it('should configure debug with source map support', function(done) {
 
