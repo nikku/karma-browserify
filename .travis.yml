@@ -3,12 +3,12 @@ node_js:
 - '0.10'
 - '0.12'
 - iojs
+- stable
 sudo: false
 script:
 - npm test
 before_install:
-- npm install -g npm@~1.4.6
-- npm install -g grunt-cli
+- npm install -g npm@^3.5.2
 deploy:
   provider: npm
   email: git_nikku@nixis.de

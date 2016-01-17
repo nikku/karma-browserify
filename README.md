@@ -7,10 +7,10 @@
 
 ## Installation
 
-Get the plug-in via [npm](https://www.npmjs.org/)
+Get the plug-in via [npm](https://www.npmjs.org/). You will also have to install browserify.
 
 ```
-npm install --save-dev karma-browserify
+npm install --save-dev karma-browserify browserify
 ```
 
 
