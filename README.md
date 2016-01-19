@@ -7,10 +7,12 @@
 
 ## Installation
 
-Get the plug-in via [npm](https://www.npmjs.org/). You will also have to install browserify.
+Get the plug-in via [npm](https://www.npmjs.org/).
+
+You will also need to install browserify and (for auto-watch) watchify with it.
 
 ```
-npm install --save-dev karma-browserify browserify
+npm install --save-dev karma-browserify browserify watchify
 ```
 
 
