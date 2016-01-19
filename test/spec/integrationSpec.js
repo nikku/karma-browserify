@@ -13,6 +13,7 @@ var chokidar = require(resolve.sync('chokidar', {
   basedir: path.resolve(__dirname, '../../node_modules/watchify')
 }));
 
+
 describe('karma-browserify', function() {
 
   var runner;
@@ -28,6 +29,7 @@ describe('karma-browserify', function() {
   chokidar.watch = chai.spy(chokidar.watch);
 
   this.timeout(10 * 1000);
+
 
   it('should perform a simple run', function(done) {
 
@@ -121,6 +123,34 @@ describe('karma-browserify', function() {
       expect(bundleCount >= 2).to.equal(true);
 
       done();
+    });
+
+  });
+
+
+  describe('error handling', function() {
+
+    var testErrorConfig = require.resolve('../integration/test-error.conf'),
+        dependencyErrorConfig = require.resolve('../integration/dependency-error.conf');
+
+
+    it('should handle test error', function(done) {
+
+      runner.start(testErrorConfig, function(result) {
+        expect(result).to.equal(1);
+
+        done();
+      });
+    });
+
+
+    it('should handle dependency error', function(done) {
+
+      runner.start(dependencyErrorConfig, function(result) {
+        expect(result).to.equal(1);
+
+        done();
+      });
     });
 
   });
