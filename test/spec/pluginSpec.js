@@ -423,7 +423,7 @@ describe('karma-browserify', function() {
 
             // then
             // no update on parse error
-            expect(bundle.update).not.to.have.been.called();
+            expect(bundle.update).to.have.been.called.with('throw new Error("bundle error (see logs)");');
 
             done();
           }, BUNDLE_UPDATE_CHECK_DELAY);
