@@ -7,7 +7,7 @@
     "browserify-tool",
     "browserify"
   ],
-  "version": "5.0.1",
+  "version": "5.0.2",
   "scripts": {
     "test": "grunt test",
     "travis": "grunt travis --verbose"
@@ -43,7 +43,7 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-release": "^0.13.0",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.19",
+    "karma": "^0.13.22",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.3",
     "load-grunt-tasks": "^3.4.0",
@@ -55,7 +55,7 @@
     "watchify": "^3.6.1"
   },
   "peerDependencies": {
-    "karma": ">=0.10",
+    "karma": ">=0.13.22",
     "browserify": ">=10 <=13",
     "watchify": ">=3 <4"
   }
