@@ -4,6 +4,7 @@ var Runner = require('../runner'),
     touch = require('touch');
 
 var singleRunConfig = require.resolve('../integration/single-run.conf'),
+    noAutoWatchConfig = require.resolve('../integration/no-auto-watch.conf'),
     autoWatchConfig = require.resolve('../integration/auto-watch.conf');
 
 var path = require('path');
@@ -12,6 +13,17 @@ var chai = require('chai');
 var chokidar = require(resolve.sync('chokidar', {
   basedir: path.resolve(__dirname, '../../node_modules/watchify')
 }));
+
+
+function triggerRun(configFile, done) {
+  var config = {
+    configFile: configFile
+  };
+
+  done = done || function() { };
+
+  return require('karma/lib/runner').run(config, done);
+}
 
 
 describe('karma-browserify', function() {
@@ -39,6 +51,24 @@ describe('karma-browserify', function() {
       // Verify that a single run doesn't create a bunch of watchers.
       // (This test assumes that watchify uses chokidar for watching).
       expect(chokidar.watch).to.not.have.been.called();
+      done();
+    });
+  });
+
+
+  it('should manually trigger no-auto-watch run', function(done) {
+
+    runner.on('run_complete', function(karma, results) {
+      runner.stopAfter(500);
+
+      expect(results.success).to.eql(2);
+    });
+
+    runner.on('browsers_ready', function() {
+      triggerRun(__dirname + '/../integration/no-auto-watch.conf.js');
+    });
+
+    runner.start(noAutoWatchConfig, function() {
       done();
     });
   });
