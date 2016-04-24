@@ -2,14 +2,14 @@
 
 [![Build Status](https://travis-ci.org/nikku/karma-browserify.svg?branch=master)](https://travis-ci.org/nikku/karma-browserify)
 
-[karma-browserify](https://github.com/nikku/karma-browserify) is a fast [browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
+[karma-browserify](https://github.com/nikku/karma-browserify) is a fast [Browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
 
 ## Installation
 
 Get the plug-in via [npm](https://www.npmjs.org/).
 
-You will also need to install browserify and (for auto-watch) watchify with it.
+You will also need to install [browserify](https://www.npmjs.com/package/browserify) and [watchify](https://www.npmjs.com/package/watchify) (for auto-watch only) with it.
 
 ```
 npm install --save-dev karma-browserify browserify watchify
