@@ -161,8 +161,8 @@ describe('karma-browserify', function() {
   describe('error handling', function() {
 
     var testErrorConfig = require.resolve('../integration/test-error.conf'),
-        dependencyErrorConfig = require.resolve('../integration/dependency-error.conf');
-
+        dependencyErrorConfig = require.resolve('../integration/dependency-error.conf'),
+        typescriptErrorConfig = require.resolve('../integration/typescript-error.conf');
 
     it('should handle test error', function(done) {
 
@@ -177,6 +177,19 @@ describe('karma-browserify', function() {
     it('should handle dependency error', function(done) {
 
       runner.start(dependencyErrorConfig, function(result) {
+        expect(result).to.equal(1);
+
+        done();
+      });
+    });
+
+
+    it('should handle typescript compile error', function(done) {
+
+      runner.start(typescriptErrorConfig, function(result) {
+
+        // karma fails with an error if typescript
+        // cannot be compiled
         expect(result).to.equal(1);
 
         done();
