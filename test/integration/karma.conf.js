@@ -25,7 +25,10 @@ module.exports = function(karma) {
       'test/*Spec.js',
 
       // a helper, accidently included with the tests
-      'test/helper.js'
+      'test/helper.js',
+
+      // tests written in typescript
+      'ts/*.spec.ts'
     ],
 
     reporters: [ 'dots' ],
@@ -33,7 +36,8 @@ module.exports = function(karma) {
     preprocessors: {
       'lib/a.js': [ 'browserify' ],
       'test/*Spec.js': [ 'browserify' ],
-      'test/helper.js': [ 'browserify' ]
+      'test/helper.js': [ 'browserify' ],
+      'ts/*.ts': [ 'browserify' ]
     },
 
     browsers: [ 'PhantomJS' ],
@@ -50,11 +54,13 @@ module.exports = function(karma) {
 
       // configure browserify
       configure: function(b) {
-
         b.on('prebundle', function() {
           b.external('lib/common.js');
         });
-      }
+      },
+      plugin: [
+        ['tsify']
+      ]
     }
   });
 };
