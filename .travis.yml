@@ -5,7 +5,7 @@ node_js:
 - stable
 sudo: false
 script:
-- npm test
+- npm run all
 before_install:
 - npm install -g npm@^3.5.2
 deploy:

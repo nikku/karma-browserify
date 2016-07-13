@@ -9,8 +9,8 @@
   ],
   "version": "5.0.5",
   "scripts": {
-    "test": "grunt test",
-    "travis": "grunt travis --verbose"
+    "all": "grunt",
+    "test": "grunt test"
   },
   "authors": [
     "Nico Rehwaldt <git_nikku@nixis.de>",
