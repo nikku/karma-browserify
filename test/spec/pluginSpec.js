@@ -55,8 +55,9 @@ function expectedBundleFile(filename) {
   return escape(path.resolve(filename));
 }
 
-function expectedBundle(filename) {
-  return 'typeof require === "function" && require("' + expectedBundleFile(filename) + '");';
+function expectedBundle(filename, requireName) {
+  requireName = requireName || 'require';
+  return 'typeof ' + requireName + ' === "function" && ' + requireName + '("' + expectedBundleFile(filename) + '");';
 }
 
 function expectBundleContainments(bundleFile, testFiles) {
@@ -194,6 +195,7 @@ describe('karma-browserify', function() {
 
       });
 
+
       it('should insert bundle file before more-specific preprocessed pattern', function() {
 
         // given
@@ -219,6 +221,7 @@ describe('karma-browserify', function() {
         ]);
 
       });
+
 
       it('should not insert bundle file before less-specific preprocessed pattern', function() {
 
@@ -485,6 +488,32 @@ describe('karma-browserify', function() {
 
 
   describe('browserify', function() {
+
+    it('should configure externalRequireName', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          externalRequireName: 'app_require'
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/a.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // bundle got created
+        expect(bundleFile.bundled).to.contain('app_require=');
+        expect(testFile.bundled).to.eql(expectedBundle('test/fixtures/a.js', 'app_require'));
+
+        done();
+      });
+    });
+
 
     it('should configure transform', function(done) {
 
