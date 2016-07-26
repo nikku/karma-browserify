@@ -12,7 +12,7 @@ Get the plug-in via [npm](https://www.npmjs.org/).
 You will also need to install [browserify](https://www.npmjs.com/package/browserify) and [watchify](https://www.npmjs.com/package/watchify) (for auto-watch only) with it.
 
 ```
-npm install --save-dev karma-browserify browserify watchify
+npm install --save-dev karma-browserify browserify watchify brfs
 ```
 
 
