@@ -31,6 +31,8 @@ module.exports = function(karma) {
       'test/**/*.js': [ 'browserify' ]
     },
 
+    plugins: [ 'karma-browserify' ],
+
     browserify: {
       debug: true,
       transform: [ 'brfs' ]
