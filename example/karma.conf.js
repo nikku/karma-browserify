@@ -16,7 +16,7 @@ module.exports = function(karma) {
       'test/**/*Spec.js': [ 'browserify' ]
     },
 
-    browsers: [ 'PhantomJS' ],
+    browsers: [ 'Chrome' ],
 
     logLevel: 'LOG_DEBUG',
 
