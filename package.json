@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "brfs": "^1.4.2",
-    "browser-unpack": "^1.1.1",
+    "browser-unpack": "^1.2.0",
     "browserify": "^14.0.0",
     "chai": "^3.4.1",
     "chai-spies": "^0.7.1",
