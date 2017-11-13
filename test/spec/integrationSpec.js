@@ -26,7 +26,7 @@ function triggerRun(configFile, done) {
 }
 
 
-describe.only('karma-browserify', function() {
+describe('karma-browserify', function() {
 
   var runner,
       watchSpy;

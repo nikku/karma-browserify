@@ -43,7 +43,7 @@ Runner.prototype.stop = function() {
   this.stopFn = null;
 };
 
-Runner.prototype.stopAfter = function (ms) {
+Runner.prototype.stopAfter = function(ms) {
   if (this.stopTimeout) clearTimeout(this.stopTimeout);
   return this.stopTimeout = setTimeout(this.stop.bind(this), ms);
 };
@@ -75,7 +75,7 @@ Runner.prototype.configure = function(configFile, config) {
 };
 
 Runner.prototype.plugin = function() {
-  return {'framework:runner': ['factory', this.factory()]};
+  return { 'framework:runner': ['factory', this.factory()] };
 };
 
 Runner.prototype.factory = function() {
@@ -86,8 +86,12 @@ Runner.prototype.factory = function() {
       this.reset();
       done();
     }.bind(this));
+
     emitter.once('run_start', function() {
-      this.stopFn = process.listeners('SIGINT')[0];
+      // find karma runner SIGINT handler
+      this.stopFn = process.listeners('SIGINT').filter(function(fn, idx) {
+        return /disconnectBrowsers/.test(fn.toString());
+      })[0];
     }.bind(this));
     for (var k in this.queuedListeners) this.listen(k);
     this.emit('framework');

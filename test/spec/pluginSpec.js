@@ -530,7 +530,7 @@ describe('karma-browserify', function() {
         // then
 
         // bundle got created
-        expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
+        expect(bundleFile.bundled).to.contain('module.exports.text = \'<\' + "HALLO" + \'>\'');
 
         done();
       });
@@ -555,7 +555,7 @@ describe('karma-browserify', function() {
         // then
 
         // bundle got created
-        expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
+        expect(bundleFile.bundled).to.contain('module.exports.text = \'<\' + "HALLO" + \'>\'');
 
         done();
       });
@@ -656,7 +656,7 @@ describe('karma-browserify', function() {
           configure: function(bundle) {
 
             // after first bundle
-            bundle.once('bundled', function (err) {
+            bundle.once('bundled', function(err) {
 
               // fail if there was an error
               if (err) {
@@ -669,7 +669,7 @@ describe('karma-browserify', function() {
                   return done(err);
                 }
 
-                expect(bundleFile.bundled).to.contain("module.exports.text = '<' + \"HALLO\" + '>'");
+                expect(bundleFile.bundled).to.contain('module.exports.text = \'<\' + "HALLO" + \'>\'');
                 done();
               });
 
@@ -695,7 +695,7 @@ describe('karma-browserify', function() {
           // Hook into bundler/pipeline events for success/error
           configure: function(bundle) {
             // After first bundle
-            bundle.once('bundled', function (err) {
+            bundle.once('bundled', function(err) {
               // Fail if there was an error
               if (err) {
                 return done(err);

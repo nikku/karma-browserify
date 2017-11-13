@@ -25,7 +25,7 @@ Some things that make it easier for us to accept your pull requests
     * single-quotes
     * ...
 * The code is tested
-* The `grunt` build passes (executes tests + linting)
+* The `npm run all` build passes (executes tests + linting)
 * The work is combined into a single commit
 * The commit messages adhere to our [guideline](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y)
 
@@ -42,4 +42,4 @@ When merging, try to do it manually (rebase on current master). This avoids merg
 
 ### Release the project
 
-To release execute `grunt release(:major|:minor|:patch)`. Respect [semantic versioning](http://semver.org/) and choose correct next version based on latest changes.
+To release execute `npm run release`. Respect [semantic versioning](http://semver.org/) and choose correct next version based on latest changes.

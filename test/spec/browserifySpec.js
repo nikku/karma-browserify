@@ -1,7 +1,6 @@
 'use strict';
 
 var browserify = require('browserify');
-var path       = require('path');
 var vm         = require('vm');
 
 function delay(fn, time) {
