@@ -9,7 +9,7 @@ var singleRunConfig = require.resolve('../integration/single-run.conf'),
 
 var path = require('path');
 var resolve = require('resolve');
-var chai = require('chai');
+var sinon = require('sinon');
 var chokidar = require(resolve.sync('chokidar', {
   basedir: path.resolve(__dirname, '../../node_modules/watchify')
 }));
@@ -26,9 +26,10 @@ function triggerRun(configFile, done) {
 }
 
 
-describe('karma-browserify', function() {
+describe.only('karma-browserify', function() {
 
-  var runner;
+  var runner,
+      watchSpy;
 
   beforeEach(function() {
     runner = new Runner();
@@ -36,21 +37,26 @@ describe('karma-browserify', function() {
 
   afterEach(function() {
     runner.stop();
-  });
 
-  chokidar.watch = chai.spy(chokidar.watch);
+    if (watchSpy) {
+      watchSpy.restore();
+      watchSpy = null;
+    }
+  });
 
   this.timeout(10 * 1000);
 
 
   it('should perform a simple run', function(done) {
 
+    watchSpy = sinon.spy(chokidar, 'watch');
+
     runner.start(singleRunConfig, function(result) {
       expect(result).to.equal(0);
 
       // Verify that a single run doesn't create a bunch of watchers.
       // (This test assumes that watchify uses chokidar for watching).
-      expect(chokidar.watch).to.not.have.been.called();
+      expect(watchSpy).not.to.have.been.called;
       done();
     });
   });

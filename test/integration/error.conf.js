@@ -1,10 +1,10 @@
 'use strict';
 
+var configure = require('./configure');
+
 var base = require('./karma.conf');
 
-module.exports = function(karma) {
-
-  base(karma);
+module.exports = configure(base, function(karma) {
 
   karma.set({
 
@@ -23,4 +23,4 @@ module.exports = function(karma) {
     singleRun: true,
     autoWatch: false,
   });
-};
+});

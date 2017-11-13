@@ -4,6 +4,7 @@ var platformSuffix = /^win/.test(process.platform) ? '-win' : '',
     prebundledCommon = 'prebundled/common' + platformSuffix + '.js';
 
 module.exports = function(karma) {
+
   karma.set({
 
     plugins: ['karma-*', require('../..')],
@@ -50,7 +51,6 @@ module.exports = function(karma) {
 
       // configure browserify
       configure: function(b) {
-
         b.on('prebundle', function() {
           b.external('lib/common.js');
         });

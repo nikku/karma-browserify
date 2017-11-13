@@ -1,9 +1,10 @@
 'use strict';
 
+var configure = require('./configure');
+
 var base = require('./karma.conf');
 
-module.exports = function(karma) {
-  base(karma);
+module.exports = configure(base, function(karma) {
 
   karma.set({
     files: [
@@ -23,8 +24,6 @@ module.exports = function(karma) {
       debug: true
     },
 
-    reporters: [],
-
-    logLevel: 'ERROR'
+    logLevel: 'DEBUG'
   });
-};
+});

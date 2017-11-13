@@ -1,14 +1,14 @@
 'use strict';
 
-var base = require('./error.conf');
+var configure = require('./configure');
 
-module.exports = function(karma) {
+var error = require('./error.conf');
 
-  base(karma);
+module.exports = configure(error, function(karma) {
 
   karma.set({
     files: [
       'test/error/testErrorSpec.js'
     ]
   });
-};
+});

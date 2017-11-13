@@ -1,7 +1,7 @@
 var chai  = require('chai');
-var spies = require('chai-spies');
+var sinonChai = require('sinon-chai');
 
-chai.use(spies);
+chai.use(sinonChai);
 
 // expose expect as global
 global.expect = chai.expect;

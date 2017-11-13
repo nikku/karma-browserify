@@ -5,7 +5,7 @@ var Bro            = require('../../lib/bro');
 var BundleFile     = require('../../lib/bundle-file');
 var RestorableFile = require('../restorable-file');
 var LoggerFactory  = require('./logger-factory');
-var chai           = require('chai');
+var sinon          = require('sinon');
 var path           = require('path');
 var fs             = require('fs');
 var unpack         = require('browser-unpack');
@@ -128,9 +128,9 @@ describe('karma-browserify', function() {
 
     bundle = new BundleFile();
 
-    bundle.update = chai.spy(bundle.update);
-    bundle.touch = chai.spy(bundle.touch);
-    bundle.remove = chai.spy(bundle.remove);
+    sinon.spy(bundle, 'update');
+    sinon.spy(bundle, 'touch');
+    sinon.spy(bundle, 'remove');
 
     bro = new Bro(bundle);
   });
@@ -164,7 +164,7 @@ describe('karma-browserify', function() {
         createPlugin(config);
 
         // then
-        expect(bundle.touch).to.have.been.called();
+        expect(bundle.touch).to.have.been.called;
 
         expect(config.files[0].pattern).to.eql(bundle.location);
       });
@@ -258,7 +258,7 @@ describe('karma-browserify', function() {
         emitter.emit('exit', function() { });
 
         // then
-        expect(bundle.remove).to.have.been.called();
+        expect(bundle.remove).to.have.been.called;
       });
 
     });
@@ -354,8 +354,7 @@ describe('karma-browserify', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.__spy.calls = [];
-          bundle.update.__spy.called = false;
+          bundle.update.reset();
 
           // when
           // update bundle file
@@ -367,7 +366,7 @@ describe('karma-browserify', function() {
           delay(function() {
 
             // then
-            expect(bundle.update).to.have.been.called();
+            expect(bundle.update).to.have.been.called;
 
             done();
           }, BUNDLE_UPDATE_CHECK_DELAY);
@@ -412,8 +411,7 @@ describe('karma-browserify', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.__spy.calls = [];
-          bundle.update.__spy.called = false;
+          bundle.update.reset();
 
           // when
           // update bundle file
@@ -426,7 +424,7 @@ describe('karma-browserify', function() {
 
             // then
             // no update on parse error
-            expect(bundle.update).to.have.been.called.with('throw new Error("bundle error (see logs)");');
+            expect(bundle.update).to.have.been.calledWith('throw new Error("bundle error (see logs)");');
 
             done();
           }, BUNDLE_UPDATE_CHECK_DELAY);
@@ -451,8 +449,7 @@ describe('karma-browserify', function() {
           plugin.preprocess(bundleFile, [ testFile ], function() {
 
             // reset spy on bundle
-            bundle.update.__spy.calls = [];
-            bundle.update.__spy.called = false;
+            bundle.update.reset();
 
             // when
             // remove file
@@ -470,7 +467,7 @@ describe('karma-browserify', function() {
 
               // then
               // update with file deleted
-              expect(bundle.update).to.have.been.called();
+              expect(bundle.update).to.have.been.called;
 
               expect(bundleFile.realContents()).not.to.contain('/b.js');
               done();

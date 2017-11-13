@@ -1,12 +1,13 @@
 'use strict';
 
-var base = require('./single-run.conf');
+var configure = require('./configure');
 
-module.exports = function(karma) {
-  base(karma);
+var singleRun = require('./single-run.conf');
+
+module.exports = configure(singleRun, function(karma) {
 
   karma.set({
     singleRun: false,
     autoWatch: true
   });
-};
+});
