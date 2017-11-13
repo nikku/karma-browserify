@@ -1,3 +1,6 @@
-**/.*
 test/
 example/
+.travis.yml
+.eslintignore
+.eslintrc
+CONTRIBUTING.md
