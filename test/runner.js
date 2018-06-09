@@ -5,7 +5,7 @@ var karma = require('karma'),
     util = require('util'),
     path = require('path');
 
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 
 function Runner() {
   this.reset();

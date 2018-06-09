@@ -11,8 +11,8 @@ var fs             = require('fs');
 var unpack         = require('browser-unpack');
 var escape         = require('js-string-escape');
 
-var assign         = require('lodash/object/assign'),
-    forEach        = require('lodash/collection/forEach');
+var assign         = require('lodash/assign'),
+    forEach        = require('lodash/forEach');
 
 var BUNDLE_UPDATE_CHECK_DELAY = 3000;
 
