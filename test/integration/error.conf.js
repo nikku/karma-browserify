@@ -18,7 +18,7 @@ module.exports = configure(base, function(karma) {
 
     reporters: [ 'dots' ],
 
-    logLevel: 'LOG_DEBUG',
+    logLevel: 'DEBUG',
 
     singleRun: true,
     autoWatch: false,
