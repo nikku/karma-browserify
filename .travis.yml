@@ -13,9 +13,8 @@ before_install:
 deploy:
   provider: npm
   email: git_nikku@nixis.de
+  api_key: $NPM_API_KEY
   on:
     tags: true
     all_branches: true
     repo: nikku/karma-browserify
-  api_key:
-    secure: ams34LX5sX48oDATRqpNubvZdT70Aax2IAfg0yJ6vUKILwD/ZYAAdoHRZBYCjdEuPg3U3UFMh+1f+cRfQJSfea6wzmPtBrN5KPYp2EJHByL+kjWn+kIoXA0/rUrjt0LzAWt4ziPbqqYD3ieR7vFvnBNCH6wDh5iWBxyRnwvEQoA=
