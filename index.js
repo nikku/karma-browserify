@@ -23,7 +23,7 @@ module.exports = {
 
 
 // override the default preprocess factory to add our
-// preprocessor for *.browserify files
+// preprocessor for *.browserify.js files
 
 try {
   module.exports.preprocess = [ 'factory', require('./lib/preprocessor').createPreprocessor ];
