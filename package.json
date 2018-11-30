@@ -41,7 +41,7 @@
     "eslint": "^4.11.0",
     "eslint-plugin-mocha": "^4.11.0",
     "jasmine-core": "^2.4.1",
-    "karma": "^2.0.2",
+    "karma": "^3.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "mocha": "^4.0.1",
@@ -56,12 +56,12 @@
     "watchify": "^3.11.0"
   },
   "peerDependencies": {
-    "karma": ">=0.10.0",
+    "karma": ">=3",
     "browserify": ">=10 <17",
     "watchify": ">=3 <4"
   },
   "engines": {
-    "node": ">=0.12",
+    "node": ">=6",
     "npm": ">=2"
   }
 }
