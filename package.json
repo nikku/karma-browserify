@@ -56,7 +56,7 @@
     "watchify": "^3.11.0"
   },
   "peerDependencies": {
-    "karma": ">=0.10.0",
+    "karma": ">=3",
     "browserify": ">=10 <17",
     "watchify": ">=3 <4"
   },
