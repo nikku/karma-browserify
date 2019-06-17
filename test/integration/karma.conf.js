@@ -37,7 +37,7 @@ module.exports = function(karma) {
       'test/helper.js': [ 'browserify' ]
     },
 
-    browsers: [ 'PhantomJS' ],
+    browsers: [ 'ChromeHeadless' ],
 
     logLevel: 'DEBUG',
 

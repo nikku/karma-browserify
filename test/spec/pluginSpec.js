@@ -141,7 +141,7 @@ describe('karma-browserify', function() {
   });
 
   // increase timeout
-  this.timeout(8000);
+  this.timeout(10000);
 
 
   function createPlugin(config) {
