@@ -1,6 +1,6 @@
 # karma-browserify
 
-[![Build Status](https://travis-ci.org/nikku/karma-browserify.svg?branch=master)](https://travis-ci.org/nikku/karma-browserify)
+[![Build Status](https://travis-ci.com/nikku/karma-browserify.svg?branch=master)](https://travis-ci.com/nikku/karma-browserify)
 
 [karma-browserify](https://github.com/nikku/karma-browserify) is a fast [Browserify](http://browserify.org) integration for [Karma](https://karma-runner.github.io) that handles large projects with ease.
 
