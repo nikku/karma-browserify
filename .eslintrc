@@ -1,4 +1,7 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "rules": {
     "keyword-spacing": [ 2 ],
     "object-curly-spacing": [ 2, "always"],
