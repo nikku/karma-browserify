@@ -7,7 +7,7 @@
     "browserify-tool",
     "browserify"
   ],
-  "version": "6.1.0",
+  "version": "7.0.0",
   "scripts": {
     "all": "run-s lint test",
     "lint": "eslint .",
