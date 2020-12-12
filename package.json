@@ -36,7 +36,7 @@
   "devDependencies": {
     "brfs": "^1.4.2",
     "browser-unpack": "^1.2.0",
-    "browserify": "^16.0.0",
+    "browserify": "^17.0.0",
     "chai": "^4.1.2",
     "eslint": "^4.11.0",
     "eslint-plugin-mocha": "^4.11.0",
@@ -56,8 +56,8 @@
     "watchify": "^3.11.1"
   },
   "peerDependencies": {
+    "browserify": ">=10 <18",
     "karma": ">=4.3.0",
-    "browserify": ">=10 <17",
     "watchify": ">=3 <4"
   },
   "engines": {
