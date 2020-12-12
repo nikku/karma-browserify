@@ -354,7 +354,7 @@ describe('karma-browserify', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.reset();
+          bundle.update.resetHistory();
 
           // when
           // update bundle file
@@ -411,7 +411,7 @@ describe('karma-browserify', function() {
         plugin.preprocess(bundleFile, [ testFile ], function() {
 
           // reset spy on bundle
-          bundle.update.reset();
+          bundle.update.resetHistory();
 
           // when
           // update bundle file
@@ -449,7 +449,7 @@ describe('karma-browserify', function() {
           plugin.preprocess(bundleFile, [ testFile ], function() {
 
             // reset spy on bundle
-            bundle.update.reset();
+            bundle.update.resetHistory();
 
             // when
             // remove file
