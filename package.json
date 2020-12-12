@@ -61,6 +61,6 @@
     "watchify": ">=3 <4"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   }
 }
