@@ -37,7 +37,7 @@
     "brfs": "^2.0.2",
     "browser-unpack": "^1.4.2",
     "browserify": "^17.0.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "eslint": "^7.15.0",
     "eslint-plugin-mocha": "^8.0.0",
     "jasmine-core": "^3.6.0",
