@@ -434,50 +434,45 @@ describe('karma-browserify', function() {
       });
 
 
-      // TODO(nikku): Yup, aint gonna work on travis CI :-(
-      if (!process.env.TRAVIS) {
+      it('should handle file remove', function(done) {
 
-        it('should handle file remove', function(done) {
+        // given
+        var plugin = createPlugin({ autoWatch: true });
 
-          // given
-          var plugin = createPlugin({ autoWatch: true });
+        var bundleFile = createFile(bundle.location);
+        var testFile = createFile('test/fixtures/b.js');
 
-          var bundleFile = createFile(bundle.location);
-          var testFile = createFile('test/fixtures/b.js');
+        // initial bundle creation
+        plugin.preprocess(bundleFile, [ testFile ], function() {
 
-          // initial bundle creation
-          plugin.preprocess(bundleFile, [ testFile ], function() {
+          // reset spy on bundle
+          bundle.update.resetHistory();
 
-            // reset spy on bundle
-            bundle.update.resetHistory();
-
-            // when
-            // remove file
-            delay(function() {
-              bFile.remove();
-            });
-
-            // update a bundled file
-            delay(function() {
-              aFile.update('module.exports = "UPDATED";');
-            }, 500);
-
-            // give watch a chance to trigger
-            delay(function() {
-
-              // then
-              // update with file deleted
-              expect(bundle.update).to.have.been.called;
-
-              expect(bundleFile.realContents()).not.to.contain('/b.js');
-              done();
-            }, BUNDLE_UPDATE_CHECK_DELAY);
-
+          // when
+          // remove file
+          delay(function() {
+            bFile.remove();
           });
+
+          // update a bundled file
+          delay(function() {
+            aFile.update('module.exports = "UPDATED";');
+          }, 500);
+
+          // give watch a chance to trigger
+          delay(function() {
+
+            // then
+            // update with file deleted
+            expect(bundle.update).to.have.been.called;
+
+            expect(bundleFile.realContents()).not.to.contain('/b.js');
+            done();
+          }, BUNDLE_UPDATE_CHECK_DELAY);
 
         });
 
-      }
+      });
 
     });
 
