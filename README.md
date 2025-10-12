@@ -191,13 +191,6 @@ module.exports = function(karma) {
 Credit goes to to the original [karma-browserify](https://github.com/xdissent/karma-browserify) and [karma-browserifast](https://github.com/cjohansen/karma-browserifast). This library builds on the lessons learned in these projects and offers improved configurability, speed and/or the ability to handle large projects.
 
 
-
-## Maintainers
-
-* [Ben Drucker](https://github.com/bendrucker)
-* [Nico Rehwaldt](https://github.com/nikku)
-
-
 ## License
 
 MIT
