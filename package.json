@@ -12,7 +12,7 @@
     "all": "run-s lint test",
     "lint": "eslint .",
     "test": "mocha --exit -r test/expect test/spec/*.js",
-    "release": "np --no-publish"
+    "release": "np"
   },
   "authors": [
     "Nico Rehwaldt <git_nikku@nixis.de>",
